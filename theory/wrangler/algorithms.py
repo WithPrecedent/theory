@@ -27,7 +27,7 @@ import amos
 
 
 @dataclasses.dataclass
-class ReTool(SimpleDirector):
+class ReTool(ProjectDirector):
     """Contains shared methods for regex tools in the ReTool package.
 
     ReTool aims to theory and speed up creating expressions tables (pseudo-
@@ -121,7 +121,7 @@ class ReTool(SimpleDirector):
                              'verbose': re.VERBOSE,
                              'ascii': re.ASCII}
         # Sets options for matcher classes.
-        self._options = SimpleRepository(contents = {'organize': ReOrganize,
+        self._options = ProjectRepository(contents = {'organize': ReOrganize,
                         'parse': ReSearch,
                         'keyword': ReFrame}
         return self
@@ -467,7 +467,7 @@ class ReOrganize(ReMatch):
 
 
 @dataclasses.dataclass
-class ReTypes(SimpleType):
+class ReTypes(ProjectType):
     """Stores dictionaries related to specialized types used by the ReTool
     subpackage.
     """

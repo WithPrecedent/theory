@@ -22,7 +22,7 @@ from . import base
 
 
 @dataclasses.dataclass
-class Styler(SimpleIterable):
+class Styler(ProjectIterable):
     """Sets data visualization style.
 
     Args:
@@ -62,7 +62,7 @@ class Styler(SimpleIterable):
         return self
     
 @dataclasses.dataclass
-class Painter(SimpleDirector):
+class Painter(ProjectDirector):
     """Creates data analysis visualizations.
 
     Args:
@@ -94,7 +94,7 @@ class Painter(SimpleDirector):
         return max_display
 
     def _draft_options(self) -> None:
-        self._options = SimpleRepository(contents = {
+        self._options = ProjectRepository(contents = {
             'calibration': Option(
                 name = 'calibration',
                 module = 'skplt.metrics',

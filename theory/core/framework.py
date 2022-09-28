@@ -60,6 +60,6 @@ class Settings(amos.Configuration):
 
  
 @dataclasses.dataclass
-class Filer(amos.Clerk):
+class Clerk(amos.Clerk):
     pass  
 

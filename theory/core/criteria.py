@@ -17,7 +17,7 @@ from . import base
 
 
 @dataclasses.dataclass
-class Accuracy(base.SimpleCriteria):
+class Accuracy(base.ProjectCriteria):
     
     name: str = 'accuracy'
     module: str = 'sklearn.metrics'
@@ -25,7 +25,7 @@ class Accuracy(base.SimpleCriteria):
         
         
 @dataclasses.dataclass
-class AdjustedMutualInfo(base.SimpleCriteria):
+class AdjustedMutualInfo(base.ProjectCriteria):
     
     name: str = 'adjusted_mutual_info_score'
     module: str = 'sklearn.metrics'
@@ -33,7 +33,7 @@ class AdjustedMutualInfo(base.SimpleCriteria):
     
 
 @dataclasses.dataclass
-class AdjustedRand(base.SimpleCriteria):
+class AdjustedRand(base.ProjectCriteria):
     
     name: str = 'adjusted_rand'
     module: str = 'sklearn.metrics'
@@ -41,7 +41,7 @@ class AdjustedRand(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class BalancedAccuracy(base.SimpleCriteria):
+class BalancedAccuracy(base.ProjectCriteria):
     
     name: str = 'balanced_accuracy'
     module: str = 'sklearn.metrics'
@@ -49,7 +49,7 @@ class BalancedAccuracy(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class BrierScoreLoss(base.SimpleCriteria):
+class BrierScoreLoss(base.ProjectCriteria):
     
     name: str = 'brier_score_loss'
     module: str = 'sklearn.metrics'
@@ -57,7 +57,7 @@ class BrierScoreLoss(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class Calinski(base.SimpleCriteria):
+class Calinski(base.ProjectCriteria):
 
     name: str = 'calinski_harabasz'
     module: str = 'sklearn.metrics'
@@ -65,7 +65,7 @@ class Calinski(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class DaviesBouldin(base.SimpleCriteria):
+class DaviesBouldin(base.ProjectCriteria):
 
     name: str = 'davies_bouldin'
     module: str = 'sklearn.metrics'
@@ -73,7 +73,7 @@ class DaviesBouldin(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class Completeness(base.SimpleCriteria):
+class Completeness(base.ProjectCriteria):
 
     name: str = 'completeness'
     module: str = 'sklearn.metrics'
@@ -81,7 +81,7 @@ class Completeness(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class ContingencyMatrix(base.SimpleCriteria):
+class ContingencyMatrix(base.ProjectCriteria):
 
     name: str = 'contingency_matrix'
     module: str = 'sklearn.metrics'
@@ -89,7 +89,7 @@ class ContingencyMatrix(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class ExplainedVariance(base.SimpleCriteria):
+class ExplainedVariance(base.ProjectCriteria):
 
     name: str = 'explained_variance'
     module: str = 'sklearn.metrics'
@@ -97,7 +97,7 @@ class ExplainedVariance(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class F1(base.SimpleCriteria):
+class F1(base.ProjectCriteria):
 
     name: str = 'f1'
     module: str = 'sklearn.metrics'
@@ -105,7 +105,7 @@ class F1(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class F1Weighted(base.SimpleCriteria):
+class F1Weighted(base.ProjectCriteria):
 
     name: str = 'f1_weighted'
     module: str = 'sklearn.metrics'
@@ -114,7 +114,7 @@ class F1Weighted(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class Fbeta(base.SimpleCriteria):
+class Fbeta(base.ProjectCriteria):
 
     name: str = 'fbeta'
     module: str = 'sklearn.metrics'
@@ -123,7 +123,7 @@ class Fbeta(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class FowlkesMallows(base.SimpleCriteria):
+class FowlkesMallows(base.ProjectCriteria):
 
     name: str = 'fowlkes_mallows'
     module: str = 'sklearn.metrics'
@@ -131,7 +131,7 @@ class FowlkesMallows(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class Hamming(base.SimpleCriteria):
+class Hamming(base.ProjectCriteria):
 
     name: str = 'hamming_loss'
     module: str = 'sklearn.metrics'
@@ -139,7 +139,7 @@ class Hamming(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class HomogeneityCompleteness(base.SimpleCriteria):
+class HomogeneityCompleteness(base.ProjectCriteria):
 
     name: str = 'homogeneity_completeness'
     module: str = 'sklearn.metrics'
@@ -147,7 +147,7 @@ class HomogeneityCompleteness(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class Homogeneity(base.SimpleCriteria):
+class Homogeneity(base.ProjectCriteria):
 
     name: str = 'homogeneity'
     module: str = 'sklearn.metrics'
@@ -155,7 +155,7 @@ class Homogeneity(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class Jaccard(base.SimpleCriteria):
+class Jaccard(base.ProjectCriteria):
 
     name: str = 'jaccard_similarity'
     module: str = 'sklearn.metrics'
@@ -163,7 +163,7 @@ class Jaccard(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class MedianAbsoluteError(base.SimpleCriteria):
+class MedianAbsoluteError(base.ProjectCriteria):
 
     name: str = 'median_absolute_error'
     module: str = 'sklearn.metrics'
@@ -171,7 +171,7 @@ class MedianAbsoluteError(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class MatthewsCoefficient(base.SimpleCriteria):
+class MatthewsCoefficient(base.ProjectCriteria):
 
     name: str = 'matthews_correlation_coefficient'
     module: str = 'sklearn.metrics'
@@ -179,7 +179,7 @@ class MatthewsCoefficient(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class MaxError(base.SimpleCriteria):
+class MaxError(base.ProjectCriteria):
 
     name: str = 'max_error'
     module: str = 'sklearn.metrics'
@@ -187,7 +187,7 @@ class MaxError(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class MeanAbsoluteError(base.SimpleCriteria):
+class MeanAbsoluteError(base.ProjectCriteria):
 
     name: str = 'mean_absolute_error'
     module: str = 'sklearn.metrics'
@@ -195,7 +195,7 @@ class MeanAbsoluteError(base.SimpleCriteria):
     
       
 @dataclasses.dataclass
-class MeanSquaredError(base.SimpleCriteria):
+class MeanSquaredError(base.ProjectCriteria):
 
     name: str = 'mean_squared_error'
     module: str = 'sklearn.metrics'
@@ -203,7 +203,7 @@ class MeanSquaredError(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class MeanSquaredLogError(base.SimpleCriteria):
+class MeanSquaredLogError(base.ProjectCriteria):
 
     name: str = 'mean_squared_log_error'
     module: str = 'sklearn.metrics'
@@ -211,7 +211,7 @@ class MeanSquaredLogError(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class MutualInfoScore(base.SimpleCriteria):
+class MutualInfoScore(base.ProjectCriteria):
 
     name: str = 'mutual_info_score'
     module: str = 'sklearn.metrics'
@@ -219,7 +219,7 @@ class MutualInfoScore(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class LogLoss(base.SimpleCriteria):
+class LogLoss(base.ProjectCriteria):
 
     name: str = 'log_loss'
     module: str = 'sklearn.metrics'
@@ -227,7 +227,7 @@ class LogLoss(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class NormalizedMutualInfo(base.SimpleCriteria):
+class NormalizedMutualInfo(base.ProjectCriteria):
 
     name: str = 'normalized_mutual_info'
     module: str = 'sklearn.metrics'
@@ -235,7 +235,7 @@ class NormalizedMutualInfo(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class Precision(base.SimpleCriteria):
+class Precision(base.ProjectCriteria):
 
     name: str = 'precision'
     module: str = 'sklearn.metrics'
@@ -243,7 +243,7 @@ class Precision(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class PrecisionWeighted(base.SimpleCriteria):
+class PrecisionWeighted(base.ProjectCriteria):
 
     name: str = 'precision_weighted'
     module: str = 'sklearn.metrics'
@@ -252,7 +252,7 @@ class PrecisionWeighted(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class R2(base.SimpleCriteria):
+class R2(base.ProjectCriteria):
 
     name: str = 'r2'
     module: str = 'sklearn.metrics'
@@ -260,7 +260,7 @@ class R2(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class Recall(base.SimpleCriteria):
+class Recall(base.ProjectCriteria):
 
     name: str = 'recall'
     module: str = 'sklearn.metrics'
@@ -268,7 +268,7 @@ class Recall(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class RecallWeighted(base.SimpleCriteria):
+class RecallWeighted(base.ProjectCriteria):
 
     name: str = 'recall_weighted'
     module: str = 'sklearn.metrics'
@@ -277,7 +277,7 @@ class RecallWeighted(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class ROCAUC(base.SimpleCriteria):
+class ROCAUC(base.ProjectCriteria):
 
     name: str = 'roc_auc'
     module: str = 'sklearn.metrics'
@@ -285,7 +285,7 @@ class ROCAUC(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class Silhouette(base.SimpleCriteria):
+class Silhouette(base.ProjectCriteria):
 
     name: str = 'silhouette'
     module: str = 'sklearn.metrics'
@@ -293,7 +293,7 @@ class Silhouette(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class VMeasure(base.SimpleCriteria):
+class VMeasure(base.ProjectCriteria):
 
     name: str = 'v_measure'
     module: str = 'sklearn.metrics'
@@ -301,7 +301,7 @@ class VMeasure(base.SimpleCriteria):
     
     
 @dataclasses.dataclass
-class ZeroOne(base.SimpleCriteria):
+class ZeroOne(base.ProjectCriteria):
 
     name: str = 'zero_one'
     module: str = 'sklearn.metrics'

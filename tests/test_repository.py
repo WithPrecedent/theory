@@ -1,6 +1,6 @@
 """
 .. module:: idea repository
-:synopsis: tests SimpleRepository and Plan classes
+:synopsis: tests ProjectRepository and Plan classes
 :author: Corey Rayburn Yung
 :copyright: 2019-2020
 :license: Apache-2.0
@@ -8,11 +8,11 @@
 
 from pathlib import pathlib.Path
 from theory.core.repository import Plan
-from theory.core.repository import SimpleRepository
+from theory.core.repository import ProjectRepository
 
 
 def test_repository():
-    repository = SimpleRepository(contents = {
+    repository = ProjectRepository(contents = {
         'run' : 'tired',
         'sleep': 'rested',
         'walk': 'relax'})

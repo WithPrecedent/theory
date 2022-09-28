@@ -18,7 +18,7 @@ import theory
 
 
 @dataclasses.dataclass
-class Manual(SimpleBook):
+class Manual(ProjectBook):
     """Implements data parsing, wrangling, munging, merging, engineering, and
     cleaning methods for the theory package.
 
@@ -34,7 +34,7 @@ class Manual(SimpleBook):
             argument should only be passed if the user wishes to override the
             steps listed in the Idea settings or if the user is not using the
             Idea class.
-        plans(SimpleBook): instanced subclasses of SimpleBook for
+        plans(ProjectBook): instanced subclasses of ProjectBook for
             prepared tools for the Manual.
         name(str): designates the name of the class which should be identical
             to the section of the idea configuration with relevant settings.
@@ -47,7 +47,7 @@ class Manual(SimpleBook):
         auto_publish(bool): whether to call the 'publish' method when the
             class is instanced.
 
-    Since this class is a subclass to SimpleBook and SimpleDirector, all
+    Since this class is a subclass to ProjectBook and ProjectDirector, all
     documentation for those classes applies as well.
 
     """

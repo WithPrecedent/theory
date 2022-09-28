@@ -153,7 +153,7 @@ class Parameters(amos.types.Lexicon):
 
 
 @dataclasses.dataclass
-class SimpleProcess(base.Component, abc.ABC):
+class ProjectProcess(base.Component, abc.ABC):
     """Base class for parts of a amos Workflow.
 
     Args:
@@ -179,7 +179,7 @@ class SimpleProcess(base.Component, abc.ABC):
             False.
 
     Attributes:
-        bases (ClassVar[SimpleBases]): library that stores theory base classes 
+        bases (ClassVar[ProjectBases]): library that stores theory base classes 
             and allows runtime access and instancing of those stored subclasses.
         subclasses (ClassVar[amos.types.Catalog]): library that stores 
             concrete subclasses and allows runtime access and instancing of 
@@ -238,7 +238,7 @@ class SimpleProcess(base.Component, abc.ABC):
 
 
 @dataclasses.dataclass
-class Step(SimpleProcess):
+class Step(ProjectProcess):
     """Wrapper for a Technique.
 
     Subclasses of Step can store additional methods and attributes to implement
@@ -281,7 +281,7 @@ class Step(SimpleProcess):
 
     
 @dataclasses.dataclass
-class Technique(amos.quirks.Loader, SimpleProcess):
+class Technique(amos.quirks.Loader, ProjectProcess):
     """Primitive object for executing algorithms in a theory workflow.
 
     Args:
@@ -319,7 +319,7 @@ class Technique(amos.quirks.Loader, SimpleProcess):
 
               
 @dataclasses.dataclass
-class Worker(SimpleProcess):
+class Worker(ProjectProcess):
     """An iterable in a amos workflow that maintains its own workflow.
 
     Args:

@@ -84,7 +84,7 @@ class Dataset(amos.quirks.Needy, amos.quirks.Element):
             prefixes: Mapping[str, str] = lambda: {},
             name: str = None,
             settings: base.Settings = None,
-            filer: base.Filer = None) -> Dataset:
+            filer: base.Clerk = None) -> Dataset:
         """Creates an Dataset instance.
 
         Either 'data' or 'x' and 'y' should be passed to Datatset, but not both.
@@ -147,7 +147,7 @@ class Dataset(amos.quirks.Needy, amos.quirks.Element):
                                         np.ndarray,
                                         pathlib.Path,
                                         str],
-                       filer: base.Filer) -> pd.DataFrame:
+                       filer: base.Clerk) -> pd.DataFrame:
         """Validates 'data' as or converts 'data' to a pandas DataFrame.
 
         Args:

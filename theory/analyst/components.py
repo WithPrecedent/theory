@@ -25,8 +25,8 @@ class AnalystComponent(amos.project.Component):
     Args:
         name (str): designates the name of a class instance that is used for 
             internal referencing throughout amos. For example, if a 
-            amos instance needs settings from a SimpleSettings instance, 
-            'name' should match the appropriate section name in a SimpleSettings 
+            amos instance needs settings from a Idea instance, 
+            'name' should match the appropriate section name in a Idea 
             instance. Defaults to None. 
         contents (Any): stored item(s) for use by a Component subclass instance.
         iterations (Union[int, str]): number of times the 'implement' method 
@@ -86,7 +86,7 @@ class AnalystComponent(amos.project.Component):
         return data
 
 @dataclasses.dataclass
-class SimpleFill(base.SimpleStep):
+class ProjectFill(base.ProjectStep):
     
     name: str = 'fill'
     parameters: Dict[str, Any] = dataclasses.field(default_factory = lambda: {
@@ -101,61 +101,61 @@ class SimpleFill(base.SimpleStep):
 
 
 @dataclasses.dataclass
-class SimpleCategorize(base.SimpleStep):
+class ProjectCategorize(base.ProjectStep):
     
     name: str = 'categorize'
 
 
 @dataclasses.dataclass
-class SimpleScale(base.SimpleStep):
+class ProjectScale(base.ProjectStep):
     
     name: str = 'scale'
 
 
 @dataclasses.dataclass
-class SimpleSplit(base.SimpleStep):
+class ProjectSplit(base.ProjectStep):
     
     name: str = 'split'
 
 
 @dataclasses.dataclass
-class SimpleEncode(base.SimpleStep):
+class ProjectEncode(base.ProjectStep):
     
     name: str = 'encode'
 
 
 @dataclasses.dataclass
-class SimpleMix(base.SimpleStep):
+class ProjectMix(base.ProjectStep):
     
     name: str = 'mix'
 
 
 @dataclasses.dataclass
-class SimpleCleave(base.SimpleStep):
+class ProjectCleave(base.ProjectStep):
     
     name: str = 'cleave'
 
 
 @dataclasses.dataclass
-class SimpleSample(base.SimpleStep):
+class ProjectSample(base.ProjectStep):
     
     name: str = 'sample'
 
 
 @dataclasses.dataclass
-class SimpleReduce(base.SimpleStep):
+class ProjectReduce(base.ProjectStep):
     
     name: str = 'reduce'
 
 
 @dataclasses.dataclass
-class SimpleModel(base.SimpleStep):
+class ProjectModel(base.ProjectStep):
     
     name: str = 'model'
 
 
 @dataclasses.dataclass
-class SimpleKNNImputer(base.SimpleTechnique):
+class ProjectKNNImputer(base.ProjectTechnique):
     
     name: str = 'knn_imputer'
     module: str = 'self'
@@ -163,7 +163,7 @@ class SimpleKNNImputer(base.SimpleTechnique):
 
 
 @dataclasses.dataclass
-class SimpleAutomaticCategorizor(base.SimpleTechnique):
+class ProjectAutomaticCategorizor(base.ProjectTechnique):
     
     name: str = 'automatic_categorizer'
     module: str = 'self'
@@ -171,7 +171,7 @@ class SimpleAutomaticCategorizor(base.SimpleTechnique):
 
 
 @dataclasses.dataclass
-class SimpleMaxAbs(base.SimpleTechnique):
+class ProjectMaxAbs(base.ProjectTechnique):
     
     name: str = 'maximum_absolute_value_scaler'
     module: str = 'sklearn.preprocessing'
@@ -181,7 +181,7 @@ class SimpleMaxAbs(base.SimpleTechnique):
 
 
 @dataclasses.dataclass
-class SimpleKfold(base.SimpleTechnique):
+class ProjectKfold(base.ProjectTechnique):
     
     name: str = 'Kfold_splitter'
     module: str = 'sklearn.model_selection'
@@ -192,7 +192,7 @@ class SimpleKfold(base.SimpleTechnique):
 
 
 @dataclasses.dataclass
-class SimpleKfold(base.SimpleTechnique):
+class ProjectKfold(base.ProjectTechnique):
     
     name: str = 'Kfold_splitter'
     module: str = 'sklearn.model_selection'
@@ -203,16 +203,16 @@ class SimpleKfold(base.SimpleTechnique):
 
 
 @dataclasses.dataclass
-class SimpleXGBoost(base.SimpleTechnique):
+class ProjectXGBoost(base.ProjectTechnique):
 
     name: str = 'xgboost'
     module: str = 'xgboost'
     contents: str = 'XGBClassifier'
        
 
-# raw_options: Dict[str, theory.SimpleTechnique] = {
+# raw_options: Dict[str, theory.ProjectTechnique] = {
 #     'fill': {
-#         'defaults': theory.SimpleTechnique(
+#         'defaults': theory.ProjectTechnique(
 #             name = 'defaults',
 #             module = 'theory.analyst.algorithms',
 #             algorithm = 'smart_fill',
@@ -225,28 +225,28 @@ class SimpleXGBoost(base.SimpleTechnique):
 #                 'list': [],
 #                 'datetime': 1/1/1900,
 #                 'timedelta': 0}}),
-#         'impute': theory.SimpleTechnique(
+#         'impute': theory.ProjectTechnique(
 #             name = 'defaults',
 #             module = 'sklearn.impute',
-#             algorithm = 'SimpleImputer',
+#             algorithm = 'ProjectImputer',
 #             default = {'defaults': {}}),
-#         'knn_impute': theory.SimpleTechnique(
+#         'knn_impute': theory.ProjectTechnique(
 #             name = 'defaults',
 #             module = 'sklearn.impute',
 #             algorithm = 'KNNImputer',
 #             default = {'defaults': {}})},
 #     'categorize': {
-#         'automatic': theory.SimpleTechnique(
+#         'automatic': theory.ProjectTechnique(
 #             name = 'automatic',
 #             module = 'theory.analyst.algorithms',
 #             algorithm = 'auto_categorize',
 #             default = {'threshold': 10}),
-#         'binary': theory.SimpleTechnique(
+#         'binary': theory.ProjectTechnique(
 #             name = 'binary',
 #             module = 'sklearn.preprocessing',
 #             algorithm = 'Binarizer',
 #             default = {'threshold': 0.5}),
-#         'bins': theory.SimpleTechnique(
+#         'bins': theory.ProjectTechnique(
 #             name = 'bins',
 #             module = 'sklearn.preprocessing',
 #             algorithm = 'KBinsDiscretizer',
@@ -256,51 +256,51 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             selected = True,
 #             required = {'encode': 'onehot'})},
 #     'scale': {
-#         'gauss': theory.SimpleTechnique(
+#         'gauss': theory.ProjectTechnique(
 #             name = 'gauss',
 #             module = None,
 #             algorithm = 'Gaussify',
 #             default = {'standardize': False, 'copy': False},
 #             selected = True,
 #             required = {'rescaler': 'standard'}),
-#         'maxabs': theory.SimpleTechnique(
+#         'maxabs': theory.ProjectTechnique(
 #             name = 'maxabs',
 #             module = 'sklearn.preprocessing',
 #             algorithm = 'MaxAbsScaler',
 #             default = {'copy': False},
 #             selected = True),
-#         'minmax': theory.SimpleTechnique(
+#         'minmax': theory.ProjectTechnique(
 #             name = 'minmax',
 #             module = 'sklearn.preprocessing',
 #             algorithm = 'MinMaxScaler',
 #             default = {'copy': False},
 #             selected = True),
-#         'normalize': theory.SimpleTechnique(
+#         'normalize': theory.ProjectTechnique(
 #             name = 'normalize',
 #             module = 'sklearn.preprocessing',
 #             algorithm = 'Normalizer',
 #             default = {'copy': False},
 #             selected = True),
-#         'quantile': theory.SimpleTechnique(
+#         'quantile': theory.ProjectTechnique(
 #             name = 'quantile',
 #             module = 'sklearn.preprocessing',
 #             algorithm = 'QuantileTransformer',
 #             default = {'copy': False},
 #             selected = True),
-#         'robust': theory.SimpleTechnique(
+#         'robust': theory.ProjectTechnique(
 #             name = 'robust',
 #             module = 'sklearn.preprocessing',
 #             algorithm = 'RobustScaler',
 #             default = {'copy': False},
 #             selected = True),
-#         'standard': theory.SimpleTechnique(
+#         'standard': theory.ProjectTechnique(
 #             name = 'standard',
 #             module = 'sklearn.preprocessing',
 #             algorithm = 'StandardScaler',
 #             default = {'copy': False},
 #             selected = True)},
 #     'split': {
-#         'group_kfold': theory.SimpleTechnique(
+#         'group_kfold': theory.ProjectTechnique(
 #             name = 'group_kfold',
 #             module = 'sklearn.model_selection',
 #             algorithm = 'GroupKFold',
@@ -309,7 +309,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             selected = True,
 #             fit_method = None,
 #             transform_method = 'split'),
-#         'kfold': theory.SimpleTechnique(
+#         'kfold': theory.ProjectTechnique(
 #             name = 'kfold',
 #             module = 'sklearn.model_selection',
 #             algorithm = 'KFold',
@@ -319,7 +319,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             required = {'shuffle': True},
 #             fit_method = None,
 #             transform_method = 'split'),
-#         'stratified': theory.SimpleTechnique(
+#         'stratified': theory.ProjectTechnique(
 #             name = 'stratified',
 #             module = 'sklearn.model_selection',
 #             algorithm = 'StratifiedKFold',
@@ -329,7 +329,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             required = {'shuffle': True},
 #             fit_method = None,
 #             transform_method = 'split'),
-#         'time': theory.SimpleTechnique(
+#         'time': theory.ProjectTechnique(
 #             name = 'time',
 #             module = 'sklearn.model_selection',
 #             algorithm = 'TimeSeriesSplit',
@@ -338,7 +338,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             selected = True,
 #             fit_method = None,
 #             transform_method = 'split'),
-#         'train_test': theory.SimpleTechnique(
+#         'train_test': theory.ProjectTechnique(
 #             name = 'train_test',
 #             module = 'sklearn.model_selection',
 #             algorithm = 'ShuffleSplit',
@@ -349,78 +349,78 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             fit_method = None,
 #             transform_method = 'split')},
 #     'encode': {
-#         'backward': theory.SimpleTechnique(
+#         'backward': theory.ProjectTechnique(
 #             name = 'backward',
 #             module = 'category_encoders',
 #             algorithm = 'BackwardDifferenceEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'basen': theory.SimpleTechnique(
+#         'basen': theory.ProjectTechnique(
 #             name = 'basen',
 #             module = 'category_encoders',
 #             algorithm = 'BaseNEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'binary': theory.SimpleTechnique(
+#         'binary': theory.ProjectTechnique(
 #             name = 'binary',
 #             module = 'category_encoders',
 #             algorithm = 'BinaryEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'dummy': theory.SimpleTechnique(
+#         'dummy': theory.ProjectTechnique(
 #             name = 'dummy',
 #             module = 'category_encoders',
 #             algorithm = 'OneHotEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'hashing': theory.SimpleTechnique(
+#         'hashing': theory.ProjectTechnique(
 #             name = 'hashing',
 #             module = 'category_encoders',
 #             algorithm = 'HashingEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'helmert': theory.SimpleTechnique(
+#         'helmert': theory.ProjectTechnique(
 #             name = 'helmert',
 #             module = 'category_encoders',
 #             algorithm = 'HelmertEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'james_stein': theory.SimpleTechnique(
+#         'james_stein': theory.ProjectTechnique(
 #             name = 'james_stein',
 #             module = 'category_encoders',
 #             algorithm = 'JamesSteinEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'loo': theory.SimpleTechnique(
+#         'loo': theory.ProjectTechnique(
 #             name = 'loo',
 #             module = 'category_encoders',
 #             algorithm = 'LeaveOneOutEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'm_estimate': theory.SimpleTechnique(
+#         'm_estimate': theory.ProjectTechnique(
 #             name = 'm_estimate',
 #             module = 'category_encoders',
 #             algorithm = 'MEstimateEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'ordinal': theory.SimpleTechnique(
+#         'ordinal': theory.ProjectTechnique(
 #             name = 'ordinal',
 #             module = 'category_encoders',
 #             algorithm = 'OrdinalEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'polynomial': theory.SimpleTechnique(
+#         'polynomial': theory.ProjectTechnique(
 #             name = 'polynomial_encoder',
 #             module = 'category_encoders',
 #             algorithm = 'PolynomialEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'sum': theory.SimpleTechnique(
+#         'sum': theory.ProjectTechnique(
 #             name = 'sum',
 #             module = 'category_encoders',
 #             algorithm = 'SumEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'target': theory.SimpleTechnique(
+#         'target': theory.ProjectTechnique(
 #             name = 'target',
 #             module = 'category_encoders',
 #             algorithm = 'TargetEncoder',
 #             data_dependent = {'cols': 'categoricals'}),
-#         'woe': theory.SimpleTechnique(
+#         'woe': theory.ProjectTechnique(
 #             name = 'weight_of_evidence',
 #             module = 'category_encoders',
 #             algorithm = 'WOEEncoder',
 #             data_dependent = {'cols': 'categoricals'})},
 #     'mix': {
-#         'polynomial': theory.SimpleTechnique(
+#         'polynomial': theory.ProjectTechnique(
 #             name = 'polynomial_mixer',
 #             module = 'sklearn.preprocessing',
 #             algorithm = 'PolynomialFeatures',
@@ -428,25 +428,25 @@ class SimpleXGBoost(base.SimpleTechnique):
 #                 'degree': 2,
 #                 'interaction_only': True,
 #                 'include_bias': True}),
-#         'quotient': theory.SimpleTechnique(
+#         'quotient': theory.ProjectTechnique(
 #             name = 'quotient',
 #             module = None,
 #             algorithm = 'QuotientFeatures'),
-#         'sum': theory.SimpleTechnique(
+#         'sum': theory.ProjectTechnique(
 #             name = 'sum',
 #             module = None,
 #             algorithm = 'SumFeatures'),
-#         'difference': theory.SimpleTechnique(
+#         'difference': theory.ProjectTechnique(
 #             name = 'difference',
 #             module = None,
 #             algorithm = 'DifferenceFeatures')},
 #     'cleave': {
-#         'cleaver': theory.SimpleTechnique(
+#         'cleaver': theory.ProjectTechnique(
 #             name = 'cleaver',
 #             module = 'theory.analyst.algorithms',
 #             algorithm = 'Cleaver')},
 #     'sample': {
-#         'adasyn': theory.SimpleTechnique(
+#         'adasyn': theory.ProjectTechnique(
 #             name = 'adasyn',
 #             module = 'imblearn.over_sampling',
 #             algorithm = 'ADASYN',
@@ -454,7 +454,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             runtime = {'random_state': 'seed'},
 #             fit_method = None,
 #             transform_method = 'fit_resample'),
-#         'cluster': theory.SimpleTechnique(
+#         'cluster': theory.ProjectTechnique(
 #             name = 'cluster',
 #             module = 'imblearn.under_sampling',
 #             algorithm = 'ClusterCentroids',
@@ -462,7 +462,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             runtime = {'random_state': 'seed'},
 #             fit_method = None,
 #             transform_method = 'fit_resample'),
-#         'knn': theory.SimpleTechnique(
+#         'knn': theory.ProjectTechnique(
 #             name = 'knn',
 #             module = 'imblearn.under_sampling',
 #             algorithm = 'AllKNN',
@@ -470,7 +470,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             runtime = {'random_state': 'seed'},
 #             fit_method = None,
 #             transform_method = 'fit_resample'),
-#         'near_miss': theory.SimpleTechnique(
+#         'near_miss': theory.ProjectTechnique(
 #             name = 'near_miss',
 #             module = 'imblearn.under_sampling',
 #             algorithm = 'NearMiss',
@@ -478,7 +478,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             runtime = {'random_state': 'seed'},
 #             fit_method = None,
 #             transform_method = 'fit_resample'),
-#         'random_over': theory.SimpleTechnique(
+#         'random_over': theory.ProjectTechnique(
 #             name = 'random_over',
 #             module = 'imblearn.over_sampling',
 #             algorithm = 'RandomOverSampler',
@@ -486,7 +486,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             runtime = {'random_state': 'seed'},
 #             fit_method = None,
 #             transform_method = 'fit_resample'),
-#         'random_under': theory.SimpleTechnique(
+#         'random_under': theory.ProjectTechnique(
 #             name = 'random_under',
 #             module = 'imblearn.under_sampling',
 #             algorithm = 'RandomUnderSampler',
@@ -494,7 +494,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             runtime = {'random_state': 'seed'},
 #             fit_method = None,
 #             transform_method = 'fit_resample'),
-#         'smote': theory.SimpleTechnique(
+#         'smote': theory.ProjectTechnique(
 #             name = 'smote',
 #             module = 'imblearn.over_sampling',
 #             algorithm = 'SMOTE',
@@ -502,7 +502,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             runtime = {'random_state': 'seed'},
 #             fit_method = None,
 #             transform_method = 'fit_resample'),
-#         'smotenc': theory.SimpleTechnique(
+#         'smotenc': theory.ProjectTechnique(
 #             name = 'smotenc',
 #             module = 'imblearn.over_sampling',
 #             algorithm = 'SMOTENC',
@@ -512,7 +512,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #                 'categorical_features': 'categoricals_indices'},
 #             fit_method = None,
 #             transform_method = 'fit_resample'),
-#         'smoteenn': theory.SimpleTechnique(
+#         'smoteenn': theory.ProjectTechnique(
 #             name = 'smoteenn',
 #             module = 'imblearn.combine',
 #             algorithm = 'SMOTEENN',
@@ -520,7 +520,7 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             runtime = {'random_state': 'seed'},
 #             fit_method = None,
 #             transform_method = 'fit_resample'),
-#         'smotetomek': theory.SimpleTechnique(
+#         'smotetomek': theory.ProjectTechnique(
 #             name = 'smotetomek',
 #             module = 'imblearn.combine',
 #             algorithm = 'SMOTETomek',
@@ -529,44 +529,44 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             fit_method = None,
 #             transform_method = 'fit_resample')},
 #     'reduce': {
-#         'kbest': theory.SimpleTechnique(
+#         'kbest': theory.ProjectTechnique(
 #             name = 'kbest',
 #             module = 'sklearn.feature_selection',
 #             algorithm = 'SelectKBest',
 #             default = {'k': 10, 'score_func': 'f_classif'},
 #             selected = True),
-#         'fdr': theory.SimpleTechnique(
+#         'fdr': theory.ProjectTechnique(
 #             name = 'fdr',
 #             module = 'sklearn.feature_selection',
 #             algorithm = 'SelectFdr',
 #             default = {'alpha': 0.05, 'score_func': 'f_classif'},
 #             selected = True),
-#         'fpr': theory.SimpleTechnique(
+#         'fpr': theory.ProjectTechnique(
 #             name = 'fpr',
 #             module = 'sklearn.feature_selection',
 #             algorithm = 'SelectFpr',
 #             default = {'alpha': 0.05, 'score_func': 'f_classif'},
 #             selected = True),
-#         'custom': theory.SimpleTechnique(
+#         'custom': theory.ProjectTechnique(
 #             name = 'custom',
 #             module = 'sklearn.feature_selection',
 #             algorithm = 'SelectFromModel',
 #             default = {'threshold': 'mean'},
 #             runtime = {'estimator': 'algorithm'},
 #             selected = True),
-#         'rank': theory.SimpleTechnique(
+#         'rank': theory.ProjectTechnique(
 #             name = 'rank',
 #             module = 'theory.critic.rank',
 #             algorithm = 'RankSelect',
 #             selected = True),
-#         'rfe': theory.SimpleTechnique(
+#         'rfe': theory.ProjectTechnique(
 #             name = 'rfe',
 #             module = 'sklearn.feature_selection',
 #             algorithm = 'RFE',
 #             default = {'n_features_to_select': 10, 'step': 1},
 #             runtime = {'estimator': 'algorithm'},
 #             selected = True),
-#         'rfecv': theory.SimpleTechnique(
+#         'rfecv': theory.ProjectTechnique(
 #             name = 'rfecv',
 #             module = 'sklearn.feature_selection',
 #             algorithm = 'RFECV',
@@ -574,54 +574,54 @@ class SimpleXGBoost(base.SimpleTechnique):
 #             runtime = {'estimator': 'algorithm'},
 #             selected = True)}}
 
-# raw_model_options: Dict[str, theory.SimpleTechnique] = {
+# raw_model_options: Dict[str, theory.ProjectTechnique] = {
 #     'classify': {
-#         'adaboost': theory.SimpleTechnique(
+#         'adaboost': theory.ProjectTechnique(
 #             name = 'adaboost',
 #             module = 'sklearn.ensemble',
 #             algorithm = 'AdaBoostClassifier',
 #             transform_method = None),
-#         'baseline_classifier': theory.SimpleTechnique(
+#         'baseline_classifier': theory.ProjectTechnique(
 #             name = 'baseline_classifier',
 #             module = 'sklearn.dummy',
 #             algorithm = 'DummyClassifier',
 #             required = {'strategy': 'most_frequent'},
 #             transform_method = None),
-#         'logit': theory.SimpleTechnique(
+#         'logit': theory.ProjectTechnique(
 #             name = 'logit',
 #             module = 'sklearn.linear_model',
 #             algorithm = 'LogisticRegression',
 #             transform_method = None),
-#         'random_forest': theory.SimpleTechnique(
+#         'random_forest': theory.ProjectTechnique(
 #             name = 'random_forest',
 #             module = 'sklearn.ensemble',
 #             algorithm = 'RandomForestClassifier',
 #             transform_method = None),
-#         'svm_linear': theory.SimpleTechnique(
+#         'svm_linear': theory.ProjectTechnique(
 #             name = 'svm_linear',
 #             module = 'sklearn.svm',
 #             algorithm = 'SVC',
 #             required = {'kernel': 'linear', 'probability': True},
 #             transform_method = None),
-#         'svm_poly': theory.SimpleTechnique(
+#         'svm_poly': theory.ProjectTechnique(
 #             name = 'svm_poly',
 #             module = 'sklearn.svm',
 #             algorithm = 'SVC',
 #             required = {'kernel': 'poly', 'probability': True},
 #             transform_method = None),
-#         'svm_rbf': theory.SimpleTechnique(
+#         'svm_rbf': theory.ProjectTechnique(
 #             name = 'svm_rbf',
 #             module = 'sklearn.svm',
 #             algorithm = 'SVC',
 #             required = {'kernel': 'rbf', 'probability': True},
 #             transform_method = None),
-#         'svm_sigmoid': theory.SimpleTechnique(
+#         'svm_sigmoid': theory.ProjectTechnique(
 #             name = 'svm_sigmoid ',
 #             module = 'sklearn.svm',
 #             algorithm = 'SVC',
 #             required = {'kernel': 'sigmoid', 'probability': True},
 #             transform_method = None),
-#         'tensorflow': theory.SimpleTechnique(
+#         'tensorflow': theory.ProjectTechnique(
 #             name = 'tensorflow',
 #             module = 'tensorflow',
 #             algorithm = None,
@@ -629,181 +629,181 @@ class SimpleXGBoost(base.SimpleTechnique):
 #                 'batch_size': 10,
 #                 'epochs': 2},
 #             transform_method = None),
-#         'xgboost': theory.SimpleTechnique(
+#         'xgboost': theory.ProjectTechnique(
 #             name = 'xgboost',
 #             module = 'xgboost',
 #             algorithm = 'XGBClassifier',
 #             # data_dependent = 'scale_pos_weight',
 #             transform_method = None)},
 #     'cluster': {
-#         'affinity': theory.SimpleTechnique(
+#         'affinity': theory.ProjectTechnique(
 #             name = 'affinity',
 #             module = 'sklearn.cluster',
 #             algorithm = 'AffinityPropagation',
 #             transform_method = None),
-#         'agglomerative': theory.SimpleTechnique(
+#         'agglomerative': theory.ProjectTechnique(
 #             name = 'agglomerative',
 #             module = 'sklearn.cluster',
 #             algorithm = 'AgglomerativeClustering',
 #             transform_method = None),
-#         'birch': theory.SimpleTechnique(
+#         'birch': theory.ProjectTechnique(
 #             name = 'birch',
 #             module = 'sklearn.cluster',
 #             algorithm = 'Birch',
 #             transform_method = None),
-#         'dbscan': theory.SimpleTechnique(
+#         'dbscan': theory.ProjectTechnique(
 #             name = 'dbscan',
 #             module = 'sklearn.cluster',
 #             algorithm = 'DBSCAN',
 #             transform_method = None),
-#         'kmeans': theory.SimpleTechnique(
+#         'kmeans': theory.ProjectTechnique(
 #             name = 'kmeans',
 #             module = 'sklearn.cluster',
 #             algorithm = 'KMeans',
 #             transform_method = None),
-#         'mean_shift': theory.SimpleTechnique(
+#         'mean_shift': theory.ProjectTechnique(
 #             name = 'mean_shift',
 #             module = 'sklearn.cluster',
 #             algorithm = 'MeanShift',
 #             transform_method = None),
-#         'spectral': theory.SimpleTechnique(
+#         'spectral': theory.ProjectTechnique(
 #             name = 'spectral',
 #             module = 'sklearn.cluster',
 #             algorithm = 'SpectralClustering',
 #             transform_method = None),
-#         'svm_linear': theory.SimpleTechnique(
+#         'svm_linear': theory.ProjectTechnique(
 #             name = 'svm_linear',
 #             module = 'sklearn.cluster',
 #             algorithm = 'OneClassSVM',
 #             transform_method = None),
-#         'svm_poly': theory.SimpleTechnique(
+#         'svm_poly': theory.ProjectTechnique(
 #             name = 'svm_poly',
 #             module = 'sklearn.cluster',
 #             algorithm = 'OneClassSVM',
 #             transform_method = None),
-#         'svm_rbf': theory.SimpleTechnique(
+#         'svm_rbf': theory.ProjectTechnique(
 #             name = 'svm_rbf',
 #             module = 'sklearn.cluster',
 #             algorithm = 'OneClassSVM,',
 #             transform_method = None),
-#         'svm_sigmoid': theory.SimpleTechnique(
+#         'svm_sigmoid': theory.ProjectTechnique(
 #             name = 'svm_sigmoid',
 #             module = 'sklearn.cluster',
 #             algorithm = 'OneClassSVM',
 #             transform_method = None)},
 #     'regress': {
-#         'adaboost': theory.SimpleTechnique(
+#         'adaboost': theory.ProjectTechnique(
 #             name = 'adaboost',
 #             module = 'sklearn.ensemble',
 #             algorithm = 'AdaBoostRegressor',
 #             transform_method = None),
-#         'baseline_regressor': theory.SimpleTechnique(
+#         'baseline_regressor': theory.ProjectTechnique(
 #             name = 'baseline_regressor',
 #             module = 'sklearn.dummy',
 #             algorithm = 'DummyRegressor',
 #             required = {'strategy': 'mean'},
 #             transform_method = None),
-#         'bayes_ridge': theory.SimpleTechnique(
+#         'bayes_ridge': theory.ProjectTechnique(
 #             name = 'bayes_ridge',
 #             module = 'sklearn.linear_model',
 #             algorithm = 'BayesianRidge',
 #             transform_method = None),
-#         'lasso': theory.SimpleTechnique(
+#         'lasso': theory.ProjectTechnique(
 #             name = 'lasso',
 #             module = 'sklearn.linear_model',
 #             algorithm = 'Lasso',
 #             transform_method = None),
-#         'lasso_lars': theory.SimpleTechnique(
+#         'lasso_lars': theory.ProjectTechnique(
 #             name = 'lasso_lars',
 #             module = 'sklearn.linear_model',
 #             algorithm = 'LassoLars',
 #             transform_method = None),
-#         'ols': theory.SimpleTechnique(
+#         'ols': theory.ProjectTechnique(
 #             name = 'ols',
 #             module = 'sklearn.linear_model',
 #             algorithm = 'LinearRegression',
 #             transform_method = None),
-#         'random_forest': theory.SimpleTechnique(
+#         'random_forest': theory.ProjectTechnique(
 #             name = 'random_forest',
 #             module = 'sklearn.ensemble',
 #             algorithm = 'RandomForestRegressor',
 #             transform_method = None),
-#         'ridge': theory.SimpleTechnique(
+#         'ridge': theory.ProjectTechnique(
 #             name = 'ridge',
 #             module = 'sklearn.linear_model',
 #             algorithm = 'Ridge',
 #             transform_method = None),
-#         'svm_linear': theory.SimpleTechnique(
+#         'svm_linear': theory.ProjectTechnique(
 #             name = 'svm_linear',
 #             module = 'sklearn.svm',
 #             algorithm = 'SVC',
 #             required = {'kernel': 'linear', 'probability': True},
 #             transform_method = None),
-#         'svm_poly': theory.SimpleTechnique(
+#         'svm_poly': theory.ProjectTechnique(
 #             name = 'svm_poly',
 #             module = 'sklearn.svm',
 #             algorithm = 'SVC',
 #             required = {'kernel': 'poly', 'probability': True},
 #             transform_method = None),
-#         'svm_rbf': theory.SimpleTechnique(
+#         'svm_rbf': theory.ProjectTechnique(
 #             name = 'svm_rbf',
 #             module = 'sklearn.svm',
 #             algorithm = 'SVC',
 #             required = {'kernel': 'rbf', 'probability': True},
 #             transform_method = None),
-#         'svm_sigmoid': theory.SimpleTechnique(
+#         'svm_sigmoid': theory.ProjectTechnique(
 #             name = 'svm_sigmoid ',
 #             module = 'sklearn.svm',
 #             algorithm = 'SVC',
 #             required = {'kernel': 'sigmoid', 'probability': True},
 #             transform_method = None),
-#         'xgboost': theory.SimpleTechnique(
+#         'xgboost': theory.ProjectTechnique(
 #             name = 'xgboost',
 #             module = 'xgboost',
 #             algorithm = 'XGBRegressor',
 #             # data_dependent = 'scale_pos_weight',
 #             transform_method = None)}}
 
-# raw_gpu_options: Dict[str, theory.SimpleTechnique] = {
+# raw_gpu_options: Dict[str, theory.ProjectTechnique] = {
 #     'classify': {
-#         'forest_inference': theory.SimpleTechnique(
+#         'forest_inference': theory.ProjectTechnique(
 #             name = 'forest_inference',
 #             module = 'cuml',
 #             algorithm = 'ForestInference',
 #             transform_method = None),
-#         'random_forest': theory.SimpleTechnique(
+#         'random_forest': theory.ProjectTechnique(
 #             name = 'random_forest',
 #             module = 'cuml',
 #             algorithm = 'RandomForestClassifier',
 #             transform_method = None),
-#         'logit': theory.SimpleTechnique(
+#         'logit': theory.ProjectTechnique(
 #             name = 'logit',
 #             module = 'cuml',
 #             algorithm = 'LogisticRegression',
 #             transform_method = None)},
 #     'cluster': {
-#         'dbscan': theory.SimpleTechnique(
+#         'dbscan': theory.ProjectTechnique(
 #             name = 'dbscan',
 #             module = 'cuml',
 #             algorithm = 'DBScan',
 #             transform_method = None),
-#         'kmeans': theory.SimpleTechnique(
+#         'kmeans': theory.ProjectTechnique(
 #             name = 'kmeans',
 #             module = 'cuml',
 #             algorithm = 'KMeans',
 #             transform_method = None)},
 #     'regressor': {
-#         'lasso': theory.SimpleTechnique(
+#         'lasso': theory.ProjectTechnique(
 #             name = 'lasso',
 #             module = 'cuml',
 #             algorithm = 'Lasso',
 #             transform_method = None),
-#         'ols': theory.SimpleTechnique(
+#         'ols': theory.ProjectTechnique(
 #             name = 'ols',
 #             module = 'cuml',
 #             algorithm = 'LinearRegression',
 #             transform_method = None),
-#         'ridge': theory.SimpleTechnique(
+#         'ridge': theory.ProjectTechnique(
 #             name = 'ridge',
 #             module = 'cuml',
 #             algorithm = 'RidgeRegression',

@@ -25,7 +25,7 @@ import amos
 
 
 @dataclasses.dataclass
-class Gaussify(theory.core.SimpleAlgorithm):
+class Gaussify(theory.core.ProjectAlgorithm):
     """Transforms data columns to more gaussian distribution.
 
     The particular method applied is chosen between 'box-cox' and 'yeo-johnson'
@@ -898,7 +898,7 @@ class AnalystSpecialist(Specialist):
 """ Options """
 
 @dataclasses.dataclass
-class Tools(SimpleRepository):
+class Tools(ProjectRepository):
     """A dictonary of Tool options for the Analyst subpackage.
 
     Args:
@@ -926,7 +926,7 @@ class Tools(SimpleRepository):
                 'impute': Tool(
                     name = 'defaults',
                     module = 'sklearn.impute',
-                    algorithm = 'SimpleImputer',
+                    algorithm = 'ProjectImputer',
                     default = {'defaults': {}}),
                 'knn_impute': Tool(
                     name = 'defaults',

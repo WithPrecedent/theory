@@ -17,16 +17,16 @@ import theory
 
 
 @dataclasses.dataclass
-class Critic(base.SimpleManager):
+class Critic(base.ProjectManager):
     """Manages a distinct portion of a data science project workflow.
 
     Args:
         name (str): designates the name of a class instance that is used for 
             internal referencing throughout amos. For example, if a 
-            amos instance needs settings from a SimpleSettings
+            amos instance needs settings from a Idea
             instance, 'name' should match the appropriate section name in a 
-            SimpleSettings instance. Defaults to None. 
-        workflow (base.SimpleWorkflow): a workflow of a project subpart derived 
+            Idea instance. Defaults to None. 
+        workflow (base.ProjectWorkflow): a workflow of a project subpart derived 
             from 'outline'. Defaults to None.
         needs (ClassVar[Union[Sequence[str], str]]): attributes needed from 
             another instance for some method within a subclass. Defaults to an
@@ -34,12 +34,12 @@ class Critic(base.SimpleManager):
                 
     """
     name: str = 'critic'
-    workflow: base.SimpleWorkflow = None
+    workflow: base.ProjectWorkflow = None
     needs: ClassVar[Union[Sequence[str], str]] = ['outline', 'name']
 
 
 @dataclasses.dataclass
-class Anthology(base.SimpleSummary):
+class Anthology(base.ProjectSummary):
     """Collects and stores results of executing a data science project workflow.
     
     Args:
@@ -61,7 +61,7 @@ class Anthology(base.SimpleSummary):
     
 
 @dataclasses.dataclass
-class SimpleEli5(base.SimpleTechnique):
+class ProjectEli5(base.ProjectTechnique):
     
     name: str = 'eli5_explainer'
     module: str = 'theory.critic'
@@ -69,7 +69,7 @@ class SimpleEli5(base.SimpleTechnique):
 
 
 @dataclasses.dataclass
-class SimpleShap(base.SimpleTechnique):
+class ProjectShap(base.ProjectTechnique):
     
     name: str = 'shap_explainer'
     module: str = 'theory.critic'
@@ -79,71 +79,71 @@ class SimpleShap(base.SimpleTechnique):
 
 # options = amos.types.Catalog(contents = {
 #     'explain': {
-#         'eli5': base.SimpleTechnique(
+#         'eli5': base.ProjectTechnique(
 #             name = 'eli5_explain',
 #             module = 'theory.critic.explainers',
 #             algorithm = 'Eli5Explain'),
-#         'shap': base.SimpleTechnique(
+#         'shap': base.ProjectTechnique(
 #             name = 'shap_explain',
 #             module = 'theory.critic.explainers',
 #             algorithm = 'ShapExplain'),
-#         'skater': base.SimpleTechnique(
+#         'skater': base.ProjectTechnique(
 #             name = 'skater_explain',
 #             module = 'theory.critic.explainers',
 #             algorithm = 'SkaterExplain'),
-#         'sklearn': base.SimpleTechnique(
+#         'sklearn': base.ProjectTechnique(
 #             name = 'sklearn_explain',
 #             module = 'theory.critic.explainers',
 #             algorithm = 'SklearnExplain')},
 #     'predict': {
-#         'eli5': base.SimpleTechnique(
+#         'eli5': base.ProjectTechnique(
 #             name = 'eli5_predict',
 #             module = 'theory.critic.predictors',
 #             algorithm = 'Eli5Predict'),
-#         'shap': base.SimpleTechnique(
+#         'shap': base.ProjectTechnique(
 #             name = 'shap_predict',
 #             module = 'theory.critic.predictors',
 #             algorithm = 'ShapPredict'),
-#         'skater': base.SimpleTechnique(
+#         'skater': base.ProjectTechnique(
 #             name = 'skater_predict',
 #             module = 'theory.critic.predictors',
 #             algorithm = 'SkaterPredict'),
-#         'sklearn': base.SimpleTechnique(
+#         'sklearn': base.ProjectTechnique(
 #             name = 'sklearn_predict',
 #             module = 'theory.critic.predictors',
 #             algorithm = 'SklearnPredict')},
 #     'rank': {
-#         'eli5': base.SimpleTechnique(
+#         'eli5': base.ProjectTechnique(
 #             name = 'eli5_rank',
 #             module = 'theory.critic.rankers',
 #             algorithm = 'Eli5Rank'),
-#         'shap': base.SimpleTechnique(
+#         'shap': base.ProjectTechnique(
 #             name = 'shap_rank',
 #             module = 'theory.critic.rankers',
 #             algorithm = 'ShapRank'),
-#         'skater': base.SimpleTechnique(
+#         'skater': base.ProjectTechnique(
 #             name = 'skater_rank',
 #             module = 'theory.critic.rankers',
 #             algorithm = 'SkaterRank'),
-#         'sklearn': base.SimpleTechnique(
+#         'sklearn': base.ProjectTechnique(
 #             name = 'sklearn_rank',
 #             module = 'theory.critic.rankers',
 #             algorithm = 'SklearnRank')},
 #     'measure': {
-#         'theory': base.SimpleTechnique(
+#         'theory': base.ProjectTechnique(
 #             name = 'theory_measure',
 #             module = 'theory.critic.metrics',
 #             algorithm = 'theoryMeasure'),
-#         'sklearn': base.SimpleTechnique(
+#         'sklearn': base.ProjectTechnique(
 #             name = 'sklearn_measure',
 #             module = 'theory.critic.metrics',
 #             algorithm = 'SklearnMeasure')},
 #     'report': {
-#         'theory': base.SimpleTechnique(
+#         'theory': base.ProjectTechnique(
 #             name = 'theory_report',
 #             module = 'theory.critic.reporters',
 #             algorithm = 'theoryReport'),
-#         'sklearn': base.SimpleTechnique(
+#         'sklearn': base.ProjectTechnique(
 #             name = 'sklearn_report',
 #             module = 'theory.critic.reporters',
 #             algorithm = 'SklearnReport')}})

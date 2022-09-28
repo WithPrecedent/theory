@@ -1,8 +1,20 @@
 """
 interface: theory project interface
 Corey Rayburn Yung <coreyrayburnyung@gmail.com>
-Copyright 2020, Corey Rayburn Yung
-License: Apache-2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+Copyright 2020-2022, Corey Rayburn Yung
+License: Apache-2.0
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 Contents:
     Project (amos.Project): main access point and interface for
@@ -12,41 +24,43 @@ Contents:
 from __future__ import annotations
 import dataclasses
 import pathlib
-from typing import (Any, Callable, ClassVar, Dict, Iterable, List, Mapping, 
-                    Optional, Sequence, Tuple, Type, Union)
+from typing import (
+    Any, Callable, ClassVar, Dict, Iterable, List, Mapping, 
+    Optional, Sequence, Tuple, Type, Union)
 
+import amos
+import chrisjen
 import numpy as np
 import pandas as pd
 
 from . import base
-from . import quirks
 from . import stages
-import amos
+
 
 
 @dataclasses.dataclass
-class Project(quirks.SimpleBase, amos.Project):
-    """Directs construction and execution of a data science project.
+class Theory(base.ProjectBase, chrisjen.Project):
+    """Directs construction and execution of a theory data science project.
     
     Args:
         name (str): designates the name of a class instance that is used for 
             internal referencing throughout amos. For example, if a 
-            amos instance needs settings from a SimpleSettings instance, 
-            'name' should match the appropriate section name in a SimpleSettings 
+            amos instance needs settings from a Idea instance, 
+            'name' should match the appropriate section name in a Idea 
             instance. Defaults to None. 
-        settings (Union[SimpleSimpleSettings, Type[SimpleSimpleSettings], 
+        settings (Union[Idea, Type[Idea], 
             pathlib.Path, str, Mapping[str, Mapping[str, Any]]]): a 
             Settings-compatible subclass or instance, a str or pathlib.Path 
             containing the file path where a file of a supported file type with
-            settings for a SimpleSettings instance is located, or a 2-level 
-            mapping containing settings. Defaults to the default SimpleSettings 
+            settings for a Idea instance is located, or a 2-level 
+            mapping containing settings. Defaults to the default Idea 
             instance.
-        filer (Union[SimpleSimpleFiler, Type[SimpleSimpleFiler], pathlib.Path, 
-            str]): a SimpleFiler-compatible class or a str or pathlib.Path 
+        clerk (Union[Clerk, Type[Clerk], pathlib.Path, 
+            str]): a Clerk-compatible class or a str or pathlib.Path 
             containing the full path of where the root folder should be located 
-            for file input and output. A 'filer' must contain all file path and 
+            for file input and output. A 'clerk' must contain all file path and 
             import/export methods for use throughout amos. Defaults to the 
-            default SimpleFiler instance. 
+            default Clerk instance. 
         identification (str): a unique identification name for a amos
             Project. The name is used for creating file folders related to the 
             project. If it is None, a str will be created from 'name' and the 
@@ -77,26 +91,25 @@ class Project(quirks.SimpleBase, amos.Project):
         
     """
     name: str = None
-    settings: Union[base.SimpleSettings, 
-                    Type[base.SimpleSettings], 
-                    Mapping[str, Mapping[str, Any]],
-                    pathlib.Path, 
-                    str] = None
-    filer: Union[base.SimpleFiler, 
-                 Type[base.SimpleFiler],
-                 pathlib.Path, 
-                 str] = None
+    settings: Union[
+        base.Idea, 
+        Type[base.Idea], 
+        Mapping[str, Mapping[str, Any]],
+        pathlib.Path, 
+        str] = None
+    clerk: Union[
+        base.Clerk, 
+        Type[base.Clerk],
+        pathlib.Path, 
+        str] = None
     identification: str = None
-    outline: stages.SimpleOutline = None
-    workflow: stages.SimpleWorkflow = None
-    summary: stages.SimpleStage = None
+    outline: stages.ProjectOutline = None
+    workflow: stages.ProjectWorkflow = None
+    summary: stages.ProjectStage = None
     automatic: bool = True
     data: Union[str, np.ndarray, pd.DataFrame, pd.Series] = None
-    stages: ClassVar[Sequence[Union[str, base.SimpleStage]]] = ['outline', 
-                                                                'workflow', 
-                                                                'summary']
-    validations: ClassVar[Sequence[str]] = ['settings', 
-                                            'name', 
-                                            'identification', 
-                                            'filer']
+    stages: ClassVar[Sequence[Union[str, base.ProjectStage]]] = [
+        'outline', 'workflow', 'summary']
+    validations: ClassVar[Sequence[str]] = [
+        'settings', 'name', 'identification', 'clerk']
     

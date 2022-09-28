@@ -18,7 +18,7 @@ from theory import base
 
 
 @dataclasses.dataclass
-class Fill(base.SimpleStep):
+class Fill(base.ProjectStep):
     """Wrapper for a Technique.
 
     An instance will try to return attributes from 'contents' if the attribute 
@@ -46,7 +46,7 @@ class Fill(base.SimpleStep):
 
 
 @dataclasses.dataclass
-class FillTechnique(base.SimpleTechnique, abc.ABC):
+class FillTechnique(base.ProjectTechnique, abc.ABC):
     """Wrapper for a Technique.
 
     Args:
@@ -137,7 +137,7 @@ class Impute(FillTechnique):
                                                 
     """  
     name: str = 'impute'
-    contents: Union[Callable, Type, object, str] = 'SimpleImputer'
+    contents: Union[Callable, Type, object, str] = 'ProjectImputer'
     iterations: Union[int, str] = 1
     parameters: Dict[str, Any] = dataclasses.field(default_factory = lambda: {
         'defaults': {}})

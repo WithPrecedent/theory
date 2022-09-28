@@ -5,8 +5,8 @@ Copyright 2020, Corey Rayburn Yung
 License: Apache-2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 
 Contents:
-    Analyst (SimpleManager):
-    Report (SimpleSummary):
+    Analyst (ProjectManager):
+    Report (ProjectSummary):
     
 """
 from __future__ import annotations
@@ -120,7 +120,7 @@ class Analyst(amos.project.Worker):
 
 
 @dataclasses.dataclass
-class Report(theory.base.SimpleSummary):
+class Report(theory.base.ProjectSummary):
     """Collects and stores results of executing a data science project workflow.
     
     Args:
