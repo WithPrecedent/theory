@@ -59,8 +59,8 @@ class Analyst(amos.project.Worker):
         
     """ Public Methods """
     
-    def implement(self, project: amos.Project, 
-                  **kwargs) -> amos.Project:
+    def implement(self, project: base.Theory, 
+                  **kwargs) -> base.Theory:
         return project  
 
 

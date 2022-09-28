@@ -813,7 +813,7 @@ class ProjectXGBoost(base.ProjectTechnique):
 #     """[summary]
 
 #     Args:
-#         project (amos.Project): [description]
+#         project (base.Theory): [description]
 
 #     Returns:
 #         amos.types.Catalog: [description]

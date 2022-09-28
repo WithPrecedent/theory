@@ -77,12 +77,12 @@ class Parameters(amos.types.Lexicon):
       
     """ Public Methods """
 
-    def finalize(self, project: amos.Project, **kwargs) -> None:
+    def finalize(self, project: base.Theory, **kwargs) -> None:
         """[summary]
 
         Args:
             name (str):
-            project (amos.Project):
+            project (base.Theory):
             
         """
         # Uses kwargs or 'default' parameters as a starting base.
@@ -107,11 +107,11 @@ class Parameters(amos.types.Lexicon):
 
     """ Private Methods """
     
-    def _add_runtime(self, project: amos.Project, **kwargs) -> None:
+    def _add_runtime(self, project: base.Theory, **kwargs) -> None:
         """[summary]
 
         Args:
-            project (amos.Project):
+            project (base.Theory):
             
         """    
         for parameter, attribute in self.runtime.items():
@@ -197,15 +197,15 @@ class ProjectProcess(base.Component, abc.ABC):
     
     """ Public Methods """
     
-    def execute(self, project: amos.Project, 
-                **kwargs) -> amos.Project:
+    def execute(self, project: base.Theory, 
+                **kwargs) -> base.Theory:
         """[summary]
 
         Args:
-            project (amos.Project): [description]
+            project (base.Theory): [description]
 
         Returns:
-            amos.Project: [description]
+            base.Theory: [description]
             
         """ 
         if self.iterations in ['infinite']:
@@ -216,15 +216,15 @@ class ProjectProcess(base.Component, abc.ABC):
                 project = self.implement(project = project, **kwargs)
         return project
 
-    def implement(self, project: amos.Project, 
-                  **kwargs) -> amos.Project:
+    def implement(self, project: base.Theory, 
+                  **kwargs) -> base.Theory:
         """[summary]
 
         Args:
-            project (amos.Project): [description]
+            project (base.Theory): [description]
 
         Returns:
-            amos.Project: [description]
+            base.Theory: [description]
             
         """  
         if self.parameters:

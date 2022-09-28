@@ -79,14 +79,14 @@ class SklearnSplitter(amos.project.Technique):
 
     """ Public Methods """
     
-    def implement(self, project: amos.Project) -> amos.Project:
+    def implement(self, project: base.Theory) -> base.Theory:
         """[summary]
 
         Args:
-            project (amos.Project): [description]
+            project (base.Theory): [description]
 
         Returns:
-            amos.Project: [description]
+            base.Theory: [description]
             
         """
         try:

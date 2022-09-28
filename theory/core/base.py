@@ -1,5 +1,5 @@
 """
-base: core classes for a theory data science project
+core.base: core classes for a theory data science project
 Corey Rayburn Yung <coreyrayburnyung@gmail.com>
 Copyright 2020-2022, Corey Rayburn Yung
 License: Apache-2.0
@@ -17,12 +17,11 @@ License: Apache-2.0
     limitations under the License.
 
 Contents:
-    Idea (amos.project.Settings):
-    Clerk (amos.project.Clerk):
-    ProjectManager (amos.project.Manager):
-    ProjectComponent (amos.project.Component):
-    ProjectAlgorithm
-    ProjectCriteria
+    Theory (framework.ProjectBase, chrisjen.Project)
+    Idea (framework.ProjectBase, chrisjen.Settings):
+    Clerk (framework.ProjectBase, chrisjen.Filer):
+    Component (chrisjen.Component):
+    Stage
     
     
     
@@ -35,16 +34,97 @@ import inspect
 import random
 import pathlib
 from typing import (
-    Any, Callable, ClassVar, Dict, Hashable, Iterable, List, MutableMapping, 
+    TYPE_CHECKING, Any, Callable, ClassVar, Dict, Hashable, Iterable, List, MutableMapping, 
     Optional, Sequence, Tuple, Type, Union)
 
 import amos
 import chrisjen
 import more_itertools
 
+if TYPE_CHECKING:
+    from . import framework
+    import numpy as np
+    import pandas as pd
+
 
 @dataclasses.dataclass
-class Idea(amos.Settings):
+class Theory(framework.ProjectBase, chrisjen.Project):
+    """Directs construction and execution of a theory data science project.
+    
+    Args:
+        name (str): designates the name of a class instance that is used for 
+            internal referencing throughout amos. For example, if a 
+            amos instance needs settings from a Idea instance, 
+            'name' should match the appropriate section name in a Idea 
+            instance. Defaults to None. 
+        idea (Union[Idea, Type[Idea], 
+            pathlib.Path, str, Mapping[str, Mapping[str, Any]]]): a 
+            Settings-compatible subclass or instance, a str or pathlib.Path 
+            containing the file path where a file of a supported file type with
+            settings for a Idea instance is located, or a 2-level 
+            mapping containing settings. Defaults to the default Idea 
+            instance.
+        clerk (Union[Clerk, Type[Clerk], pathlib.Path, 
+            str]): a Clerk-compatible class or a str or pathlib.Path 
+            containing the full path of where the root folder should be located 
+            for file input and output. A 'clerk' must contain all file path and 
+            import/export methods for use throughout amos. Defaults to the 
+            default Clerk instance. 
+        identification (str): a unique identification name for a amos
+            Project. The name is used for creating file folders related to the 
+            project. If it is None, a str will be created from 'name' and the 
+            date and time. Defaults to None.   
+        outline (project.Stage): an outline of a project workflow derived from 
+            'idea'. Defaults to None.
+        workflow (project.Stage): a workflow of a project derived from 
+            'outline'. Defaults to None.
+        summary (project.Stage): a summary of a project execution derived from 
+            'workflow'. Defaults to None.
+        automatic (bool): whether to automatically advance 'worker' (True) or 
+            whether the worker must be advanced manually (False). Defaults to 
+            True.
+        data (Any): any data object for the project to be applied. If it is
+            None, an instance will still execute its workflow, but it won't
+            apply it to any external data. Defaults to None.  
+        states (ClassVar[Sequence[Union[str, project.Stage]]]): a list of Stages 
+            or strings corresponding to keys in 'bases.stage.library'. Defaults 
+            to a list containing 'outline', 'workflow', and 'summary'.
+        validations (ClassVar[Sequence[str]]): a list of attributes that need 
+            validating. Defaults to a list of attributes in the dataclass field.
+    
+    Attributes:
+        bases (ClassVar[amos.types.Lexicon]): a class attribute containing
+            a dictionary of base classes with libraries of subclasses of those 
+            bases classes. Changing this attribute will entirely replace the 
+            existing links between this instance and all other base classes.
+        
+    """
+    name: str = None
+    idea: Union[
+        Idea, 
+        Type[Idea], 
+        MutableMapping[str, MutableMapping[str, Any]],
+        pathlib.Path, 
+        str] = None
+    clerk: Union[
+        Clerk, 
+        Type[Clerk],
+        pathlib.Path, 
+        str] = None
+    identification: str = None
+    outline: stages.ProjectOutline = None
+    workflow: stages.ProjectWorkflow = None
+    summary: stages.Stage = None
+    automatic: bool = True
+    data: Union[str, np.ndarray, pd.DataFrame, pd.Series] = None
+    stages: ClassVar[Sequence[Union[str, Stage]]] = [
+        'outline', 'workflow', 'summary']
+    validations: ClassVar[Sequence[str]] = [
+        'idea', 'name', 'identification', 'clerk']
+    
+    
+@dataclasses.dataclass
+class Idea(framework.ProjectBase, amos.Settings):
     """Loads and stores configuration settings for a theory project.
     
     To create settings instance, a user can pass as the 'contents' parameter a:
@@ -113,7 +193,7 @@ class Idea(amos.Settings):
 
  
 @dataclasses.dataclass
-class Clerk(chrisjen.Filer):
+class Clerk(framework.ProjectBase, chrisjen.Filer):
     """File and folder management for theory projects.
 
     Creates and stores dynamic and static file paths, properly formats files
@@ -153,175 +233,9 @@ class Clerk(chrisjen.Filer):
             'visual_format': 'png'}) 
  
 
-@dataclasses.dataclass
-class ProjectBases(object):
-    """Stores base classes in theory.
-     
-    """
-    def register(self, name: str, item: Union[Type, object]) -> None:
-        """[summary]
-        Args:
-            name (str): [description]
-            item (Union[Type, object]): [description]
-        Raises:
-            ValueError: [description]
-            TypeError: [description]
-        Returns:
-            [type]: [description]
-            
-        """
-        if name in dir(self):
-            raise ValueError(f'{name} is already registered')
-        elif inspect.isclass(item) and issubclass(item, ProjectBase):
-            setattr(self, name, item)
-        elif isinstance(item, ProjectBase):
-            setattr(self, name, item.__class__)
-        else:
-            raise TypeError(f'item must be a ProjectBase')
-        return self
-
-    def remove(self, name: str) -> None:
-        """[summary]
-        Args:
-            name (str): [description]
-        Raises:
-            AttributeError: [description]
-            
-        """
-        try:
-            delattr(self, name)
-        except AttributeError:
-            raise AttributeError(f'{name} does not exist in {self.__name__}')
-
 
 @dataclasses.dataclass
-class ProjectBase(abc.ABC):
-    """Base mixin for automatic registration of subclasses and instances. 
-    
-    Any concrete (non-abstract) subclass will automatically store itself in the 
-    class attribute 'subclasses' using the snakecase name of the class as the 
-    key.
-    
-    Any direct subclass will automatically store itself in the class attribute 
-    'bases' using the snakecase name of the class as the key.
-    
-    Any instance of a subclass will be stored in the class attribute 'instances'
-    as long as '__post_init__' is called (either by a 'super()' call or if the
-    instance is a dataclass and '__post_init__' is not overridden).
-    
-    Args:
-        bases (ClassVar[ProjectBases]): library that stores direct subclasses 
-            (those with Base in their '__bases__' attribute) and allows runtime 
-            access and instancing of those stored subclasses.
-    
-    Attributes:
-        subclasses (ClassVar[amos.types.Catalog]): library that stores 
-            concrete subclasses and allows runtime access and instancing of 
-            those stored subclasses. 'subclasses' is automatically created when 
-            a direct ProjectBase subclass (ProjectBase is in its '__bases__') is 
-            instanced.
-        instances (ClassVar[amos.types.Catalog]): library that stores
-            subclass instances and allows runtime access of those stored 
-            subclass instances. 'instances' is automatically created when a 
-            direct ProjectBase subclass (ProjectBase is in its '__bases__') is 
-            instanced. 
-                      
-    Namespaces: 
-        bases, subclasses, instances, borrow, instance, and __init_subclass__.
-    
-    """
-    bases: ClassVar[ProjectBases] = ProjectBases()
-    
-    """ Initialization Methods """
-    
-    def __init_subclass__(cls, **kwargs):
-        """Adds 'cls' to appropriate class libraries."""
-        super().__init_subclass__(**kwargs)
-        # Creates a snakecase key of the class name.
-        key = amos.tools.snakify(cls.__name__)
-        # Adds class to 'bases' if it is a base class.
-        if ProjectBase in cls.__bases__:
-            # Creates libraries on this class base for storing subclasses.
-            cls.subclasses = amos.types.Catalog()
-            cls.instances = amos.types.Catalog()
-            # Adds this class to 'bases' using 'key'.
-            cls.bases.register(name = key, item = cls)
-        # Adds concrete subclasses to 'library' using 'key'.
-        if not abc.ABC in cls.__bases__:
-            cls.subclasses[key] = cls
-
-    def __post_init__(self) -> None:
-        """Initializes class instance attributes."""
-        # Calls parent and/or mixin initialization method(s).
-        try:
-            super().__post_init__()
-        except AttributeError:
-            pass
-        try:
-            key = self.name
-        except AttributeError:
-            key = amos.tools.snakify(self.__class__.__name__)
-        self.instances[key] = self
- 
-    """ Public Class Methods """
-    
-    @classmethod
-    def borrow(cls, name: Union[str, Sequence[str]]) -> Type[ProjectBase]:
-        """[summary]
-        Args:
-            name (Union[str, Sequence[str]]): [description]
-        Raises:
-            KeyError: [description]
-        Returns:
-            ProjectBase: [description]
-            
-        """
-        item = None
-        for key in more_itertools.always_iterable(name):
-            try:
-                item = cls.subclasses[key]
-                break
-            except KeyError:
-                pass
-        if item is None:
-            raise KeyError(f'No matching item for {str(name)} was found') 
-        else:
-            return item
-           
-    @classmethod
-    def instance(cls, name: Union[str, Sequence[str]], **kwargs) -> ProjectBase:
-        """[summary]
-        Args:
-            name (Union[str, Sequence[str]]): [description]
-        Raises:
-            KeyError: [description]
-        Returns:
-            ProjectBase: [description]
-            
-        """
-        item = None
-        for key in more_itertools.always_iterable(name):
-            for library in ['instances', 'subclasses']:
-                try:
-                    item = getattr(cls, library)[key]
-                    break
-                except KeyError:
-                    pass
-            if item is not None:
-                break
-        if item is None:
-            raise KeyError(f'No matching item for {str(name)} was found') 
-        elif inspect.isclass(item):
-            return cls(name = name, **kwargs)
-        else:
-            instance = copy.deepcopy(item)
-            for key, value in kwargs.items():
-                setattr(instance, key, value)
-            return instance
-
-
-@dataclasses.dataclass
-class Component(ProjectBase, amos.quirks.Element, abc.ABC):
+class Component(framework.ProjectBase, amos.quirks.Element, abc.ABC):
     """Base class for parts of a amos Workflow.
     
     Args:
@@ -347,25 +261,25 @@ class Component(ProjectBase, amos.quirks.Element, abc.ABC):
     """ Required Subclass Methods """
     
     @abc.abstractmethod
-    def execute(self, project: amos.Project, 
-                **kwargs) -> amos.Project:
+    def execute(self, project: Theory, 
+                **kwargs) -> Theory:
         """[summary]
         Args:
-            project (amos.Project): [description]
+            project (Theory): [description]
         Returns:
-            amos.Project: [description]
+            Theory: [description]
             
         """ 
         return project
 
     @abc.abstractmethod
-    def implement(self, project: amos.Project, 
-                  **kwargs) -> amos.Project:
+    def implement(self, project: Theory, 
+                  **kwargs) -> Theory:
         """[summary]
         Args:
-            project (amos.Project): [description]
+            project (Theory): [description]
         Returns:
-            amos.Project: [description]
+            Theory: [description]
             
         """  
         return project
@@ -406,7 +320,7 @@ class Component(ProjectBase, amos.quirks.Element, abc.ABC):
 
 
 @dataclasses.dataclass
-class Stage(ProjectBase, amos.quirks.Needy, abc.ABC):
+class Stage(framework.ProjectBase, amos.quirks.Needy, abc.ABC):
     """Creates a amos object.
     
     Args:

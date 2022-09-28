@@ -372,14 +372,14 @@ class Summary(amos.types.Lexicon, base.Stage):
     
     @classmethod
     def from_workflow(cls, workflow: Workflow, data: Any = None,
-                      copy_data: bool = True, **kwargs) -> amos.Project:
+                      copy_data: bool = True, **kwargs) -> base.Theory:
         """[summary]
 
         Args:
-            project (amos.Project): [description]
+            project (base.Theory): [description]
 
         Returns:
-            amos.Project: [description]
+            base.Theory: [description]
             
         """
         summary = cls()
