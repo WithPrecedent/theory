@@ -69,7 +69,7 @@ class Metric(Technique):
 
 
 @dataclasses.dataclass
-class SklearnMetrics(ProjectRepository):
+class SklearnMetrics(TheoryRepository):
     """A dictonary of Evaluator options for the Analyst subpackage.
 
     Args:
@@ -474,7 +474,7 @@ class theoryReporter(Reporter):
 #     algorithm = 'explain_prediction_df')
 
 
-# """ Prediction ProjectRepository """
+# """ Prediction TheoryRepository """
 
 # prediction_gini = Technique(
 #     name = 'gini_predictions',
@@ -500,7 +500,7 @@ class theoryReporter(Reporter):
 #     module = 'self',
 #     algorithm = '_get_shap_probabilities')
 
-# """ Ranking ProjectRepository """
+# """ Ranking TheoryRepository """
 
 # rank_gini = Technique(
 #     name = 'gini_importances',
@@ -519,7 +519,7 @@ class theoryReporter(Reporter):
 #     module = 'self',
 #     algorithm = '_get_shap_importances')
 
-""" Metrics ProjectRepository """
+""" Metrics TheoryRepository """
 
 # @dataclasses.dataclass
 # class Article(object):

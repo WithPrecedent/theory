@@ -78,9 +78,9 @@ importables: dict[str, str] = {
     'framework': 'core.framework',
     'base': 'core.base',
     'components': 'core.components',
-    'externals': 'core.externals',
+    'external': 'core.external',
     'criteria': 'core.criteria',
-    'stages': 'core.stages',
+    'Phases': 'core.Phases',
     'dataset': 'core.dataset',
     'analyst': 'analyst',
     'artist': 'artist',
@@ -88,10 +88,10 @@ importables: dict[str, str] = {
     'explorer': 'explorer',
     'wrangler': 'wrangler',
     'ProjectBase': 'core.base.ProjectBase',
-    'Component': 'core.base.Component',
-    'Outline': 'core.stages.Outline',
-    'Workflow': 'core.stages.Workflow',
-    'Summary': 'core.stages.Summary',
+    'Process': 'core.base.Process',
+    'Outline': 'core.Phases.Outline',
+    'Workflow': 'core.Phases.Workflow',
+    'Summary': 'core.Phases.Summary',
     'Parameters': 'core.components.Parameters',
     'Step': 'core.components.Step',
     'Technique': 'core.components.Technique',
@@ -101,7 +101,7 @@ importables: dict[str, str] = {
     'Study': 'core.components.Study',
     'Survey': 'core.components.Survey',
     'Dataset': 'core.dataset.Dataset',
-    'Project': 'core.interface.Project'}
+    'Theory': 'core.interface.Theory'}
 
 
 def __getattr__(name: str) -> Any:

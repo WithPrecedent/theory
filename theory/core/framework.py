@@ -80,12 +80,12 @@ class ProjectBase(abc.ABC):
             access and instancing of those stored subclasses.
     
     Attributes:
-        subclasses (ClassVar[amos.types.Catalog]): library that stores 
+        subclasses (ClassVar[amos.Catalog]): library that stores 
             concrete subclasses and allows runtime access and instancing of 
             those stored subclasses. 'subclasses' is automatically created when 
             a direct ProjectBase subclass (ProjectBase is in its '__bases__') is 
             instanced.
-        instances (ClassVar[amos.types.Catalog]): library that stores
+        instances (ClassVar[amos.Catalog]): library that stores
             subclass instances and allows runtime access of those stored 
             subclass instances. 'instances' is automatically created when a 
             direct ProjectBase subclass (ProjectBase is in its '__bases__') is 
@@ -107,8 +107,8 @@ class ProjectBase(abc.ABC):
         # Adds class to 'bases' if it is a base class.
         if ProjectBase in cls.__bases__:
             # Creates libraries on this class base for storing subclasses.
-            cls.subclasses = amos.types.Catalog()
-            cls.instances = amos.types.Catalog()
+            cls.subclasses = amos.Catalog()
+            cls.instances = amos.Catalog()
             # Adds this class to 'bases' using 'key'.
             cls.bases.register(name = key, item = cls)
         # Adds concrete subclasses to 'library' using 'key'.

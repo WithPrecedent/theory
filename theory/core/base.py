@@ -20,8 +20,8 @@ Contents:
     Theory (framework.ProjectBase, chrisjen.Project)
     Idea (framework.ProjectBase, chrisjen.Settings):
     Clerk (framework.ProjectBase, chrisjen.Filer):
-    Component (chrisjen.Component):
-    Stage
+    Process (framework.ProjectBase, chrisjen.Component, abc.ABC):
+    Phase
     
     
     
@@ -43,6 +43,7 @@ import more_itertools
 
 if TYPE_CHECKING:
     from . import framework
+    from . import stages
     import numpy as np
     import pandas as pd
 
@@ -52,49 +53,43 @@ class Theory(framework.ProjectBase, chrisjen.Project):
     """Directs construction and execution of a theory data science project.
     
     Args:
-        name (str): designates the name of a class instance that is used for 
-            internal referencing throughout amos. For example, if a 
-            amos instance needs settings from a Idea instance, 
-            'name' should match the appropriate section name in a Idea 
-            instance. Defaults to None. 
-        idea (Union[Idea, Type[Idea], 
-            pathlib.Path, str, Mapping[str, Mapping[str, Any]]]): a 
-            Settings-compatible subclass or instance, a str or pathlib.Path 
-            containing the file path where a file of a supported file type with
-            settings for a Idea instance is located, or a 2-level 
-            mapping containing settings. Defaults to the default Idea 
+        name (Optional[str]): designates the name that is used for internal 
+            referencing throughout theory. For example, if an instance needs 
+            settings from an Idea instance, 'name' should match the appropriate 
+            section name in an Idea instance. Defaults to None.  
+        idea (Union[Idea, Type[Idea], pathlib.Path, str, Mapping[str, 
+            Mapping[str, Any]]]): an Idea-compatible subclass or instance, a str 
+            or pathlib.Path containing the file path where a file of a supported 
+            file type with settings for an Idea instance is located, or a 
+            2-level mapping containing settings. Defaults to the default Idea 
             instance.
-        clerk (Union[Clerk, Type[Clerk], pathlib.Path, 
-            str]): a Clerk-compatible class or a str or pathlib.Path 
-            containing the full path of where the root folder should be located 
-            for file input and output. A 'clerk' must contain all file path and 
-            import/export methods for use throughout amos. Defaults to the 
-            default Clerk instance. 
-        identification (str): a unique identification name for a amos
-            Project. The name is used for creating file folders related to the 
-            project. If it is None, a str will be created from 'name' and the 
-            date and time. Defaults to None.   
-        outline (project.Stage): an outline of a project workflow derived from 
+        clerk (Union[Clerk, Type[Clerk], pathlib.Path, str]): a Clerk-compatible 
+            class or a str or pathlib.Path containing the full path of where the 
+            root folder should be located for file input and output. A 'clerk' 
+            must contain all file path and import/export methods for use 
+            throughout theory. Defaults to the default Clerk instance. 
+        tag (str): a unique tag name for a theory project. The name is used for 
+            creating file folders related to the project. If it is None, a str 
+            will be created from 'name' and the date and time. Defaults to None.   
+        outline (project.Phase): an outline of a project workflow derived from 
             'idea'. Defaults to None.
-        workflow (project.Stage): a workflow of a project derived from 
+        workflow (project.Phase): a workflow of a project derived from 
             'outline'. Defaults to None.
-        summary (project.Stage): a summary of a project execution derived from 
+        summary (project.Phase): a summary of a project execution derived from 
             'workflow'. Defaults to None.
-        automatic (bool): whether to automatically advance 'worker' (True) or 
-            whether the worker must be advanced manually (False). Defaults to 
-            True.
+        automatic (bool): whether to automatically advance through the phases of
+            the project (True) or whether the phases must be advanced through 
+            manually (False). Defaults to True.
         data (Any): any data object for the project to be applied. If it is
             None, an instance will still execute its workflow, but it won't
             apply it to any external data. Defaults to None.  
-        states (ClassVar[Sequence[Union[str, project.Stage]]]): a list of Stages 
-            or strings corresponding to keys in 'bases.stage.library'. Defaults 
-            to a list containing 'outline', 'workflow', and 'summary'.
         validations (ClassVar[Sequence[str]]): a list of attributes that need 
-            validating. Defaults to a list of attributes in the dataclass field.
+            validating. Defaults to a list of names of attributes in the 
+            dataclass field.
     
     Attributes:
-        bases (ClassVar[amos.types.Lexicon]): a class attribute containing
-            a dictionary of base classes with libraries of subclasses of those 
+        bases (ClassVar[amos.Dictionary]): a class attribute containing a 
+            dictionary of base classes with libraries of subclasses of those 
             bases classes. Changing this attribute will entirely replace the 
             existing links between this instance and all other base classes.
         
@@ -111,20 +106,17 @@ class Theory(framework.ProjectBase, chrisjen.Project):
         Type[Clerk],
         pathlib.Path, 
         str] = None
-    identification: str = None
-    outline: stages.ProjectOutline = None
-    workflow: stages.ProjectWorkflow = None
-    summary: stages.Stage = None
+    tag: str = None
+    outline: stages.Outline = None
+    workflow: stages.Workflow = None
+    summary: stages.Summary = None
     automatic: bool = True
     data: Union[str, np.ndarray, pd.DataFrame, pd.Series] = None
-    stages: ClassVar[Sequence[Union[str, Stage]]] = [
-        'outline', 'workflow', 'summary']
-    validations: ClassVar[Sequence[str]] = [
-        'idea', 'name', 'identification', 'clerk']
+    validations: ClassVar[Sequence[str]] = ['idea', 'name', 'tag', 'clerk']
     
     
 @dataclasses.dataclass
-class Idea(framework.ProjectBase, amos.Settings):
+class Idea(framework.ProjectBase, chrisjen.Settings):
     """Loads and stores configuration settings for a theory project.
     
     To create settings instance, a user can pass as the 'contents' parameter a:
@@ -197,25 +189,25 @@ class Clerk(framework.ProjectBase, chrisjen.Filer):
     """File and folder management for theory projects.
 
     Creates and stores dynamic and static file paths, properly formats files
-    for import and export, and provides methods for loading and saving
-    amos, pandas, and numpy objects.
+    for import and export, and provides methods for loading and saving theory, 
+    pandas, and numpy objects.
 
     Args:
         root_folder (Union[str, pathlib.Path]): the complete path from which the 
             other paths and folders used by Clerk are ordinarily derived 
             (unless you decide to use full paths for all other options). 
             Defaults to None. If not passed, the parent folder of the current 
-            working workery is used.
+            working folder is used.
         input_folder (Union[str, pathlib.Path]]): the input_folder subfolder 
             name or a complete path if the 'input_folder' is not off of
             'root_folder'. Defaults to 'input'.
         output_folder (Union[str, pathlib.Path]]): the output_folder subfolder
             name or a complete path if the 'output_folder' is not off of
             'root_folder'. Defaults to 'output'.
-        parameters (MutableMapping[str, str]): keys are the amos names of 
-            parameters and values are the values which should be passed to the
-            Distributor instances when loading or savings files. Defaults to the
-            global 'default_parameters' variable.
+        parameters (MutableMapping[str, str]): keys are the names of parameters 
+            and values are the values which should be passed when loading or 
+            savings files. Defaults to the parameters included in the dataclass
+            field.
 
     """
     root_folder: Union[str, pathlib.Path] = pathlib.Path('..')
@@ -231,97 +223,112 @@ class Clerk(framework.ProjectBase, chrisjen.Filer):
             'threads': -1,
             'visual_tightness': 'tight', 
             'visual_format': 'png'}) 
- 
 
 
 @dataclasses.dataclass
-class Component(framework.ProjectBase, amos.quirks.Element, abc.ABC):
-    """Base class for parts of a amos Workflow.
+class Process(framework.ProjectBase, chrisjen.Component, abc.ABC):
+    """Base class for parts of a theory Workflow.
     
     Args:
-        name (str): designates the name of a class instance that is used for 
-            internal referencing throughout theory. For example, if a theory 
-            instance needs options from a Settings instance, 'name' should match 
-            the appropriate section name in a Settings instance. Defaults to 
-            None. 
-                
-    Attributes:
-        bases (ClassVar[ProjectBases]): library that stores theory base classes 
-            and allows runtime access and instancing of those stored subclasses.
-        subclasses (ClassVar[amos.types.Catalog]): library that stores 
-            concrete subclasses and allows runtime access and instancing of 
-            those stored subclasses. 
-        instances (ClassVar[amos.types.Catalog]): library that stores
-            subclass instances and allows runtime access of those stored 
-            subclass instances.
+        name (Optional[str]): designates the name that is used for internal 
+            referencing throughout theory. For example, if an instance needs 
+            settings from an Idea instance, 'name' should match the appropriate 
+            section name in an Idea instance. Defaults to None. 
+        contents (Optional[Any]): stored item(s) to be applied to 'project'
+            passed to the 'execute' method. Defaults to None.
+        parameters (MutableMapping[Hashable, Any]): parameters to be attached to 
+            'contents' when the 'implement' method is called. Defaults to an
+            empty Parameters instance.
                 
     """
-    name: str = None
+    name: Optional[str] = None
+    contents: Optional[Any] = None
+    parameters: MutableMapping[Hashable, Any] = dataclasses.field(
+        default_factory = chrisjen.Parameters)  
 
     """ Required Subclass Methods """
     
     @abc.abstractmethod
-    def execute(self, project: Theory, 
-                **kwargs) -> Theory:
-        """[summary]
+    def execute(
+        self, 
+        item: Theory, 
+        *args: Optional[Any], 
+        **kwargs: Optional[Any]) -> Theory:
+        """Calls the 'implement' method after finalizing parameters.
+
+        The 'execute' method can also be used to call the 'implement' method
+        multiple times.
+        
         Args:
-            project (Theory): [description]
+            item (Theory): a Theory instance which contains any item or data to 
+                which 'contents' should be applied.
+
         Returns:
-            Theory: [description]
+            Theory: a Theory instance with results added after applying 
+                'contents'.
             
-        """ 
-        return project
+        """
+        return item
 
     @abc.abstractmethod
-    def implement(self, project: Theory, 
-                  **kwargs) -> Theory:
-        """[summary]
+    def implement(
+        self, 
+        item: Theory, 
+        *args: Optional[Any], 
+        **kwargs: Optional[Any]) -> Theory:
+        """Applies 'contents' to 'item'.
+
+        Subclasses must provide their own methods.
+
         Args:
-            project (Theory): [description]
+            item (Theory): a Theory instance which contains any item or data to 
+                which 'contents' should be applied.
+
         Returns:
-            Theory: [description]
+            Theory: a Theory instance with results added after applying 
+                'contents'.
             
-        """  
-        return project
+        """ 
+        return item
         
-    """ Public Class Methods """
+    # """ Public Class Methods """
     
-    @classmethod
-    def create(cls, name: Union[str, Sequence[str]], **kwargs) -> Component:
-        """[summary]
-        Args:
-            name (Union[str, Sequence[str]]): [description]
-        Raises:
-            KeyError: [description]
-        Returns:
-            Component: [description]
+    # @classmethod
+    # def create(cls, name: Union[str, Sequence[str]], **kwargs) -> Process:
+    #     """[summary]
+    #     Args:
+    #         name (Union[str, Sequence[str]]): [description]
+    #     Raises:
+    #         KeyError: [description]
+    #     Returns:
+    #         Process: [description]
             
-        """        
-        keys = more_itertools.always_iterable(name)
-        for key in keys:
-            for library in ['instances', 'subclasses']:
-                item = None
-                try:
-                    item = getattr(cls, library)[key]
-                    break
-                except KeyError:
-                    pass
-            if item is not None:
-                break
-        if item is None:
-            raise KeyError(f'No matching item for {str(name)} was found') 
-        elif inspect.isclass(item):
-            return cls(name = name, **kwargs)
-        else:
-            instance = copy.deepcopy(item)
-            for key, value in kwargs.items():
-                setattr(instance, key, value)
-            return instance
+    #     """        
+    #     keys = more_itertools.always_iterable(name)
+    #     for key in keys:
+    #         for library in ['instances', 'subclasses']:
+    #             item = None
+    #             try:
+    #                 item = getattr(cls, library)[key]
+    #                 break
+    #             except KeyError:
+    #                 pass
+    #         if item is not None:
+    #             break
+    #     if item is None:
+    #         raise KeyError(f'No matching item for {str(name)} was found') 
+    #     elif inspect.isclass(item):
+    #         return cls(name = name, **kwargs)
+    #     else:
+    #         instance = copy.deepcopy(item)
+    #         for key, value in kwargs.items():
+    #             setattr(instance, key, value)
+    #         return instance
 
 
 @dataclasses.dataclass
-class Stage(framework.ProjectBase, amos.quirks.Needy, abc.ABC):
-    """Creates a amos object.
+class Phase(framework.ProjectBase, amos.quirks.Needy, abc.ABC):
+    """Creates a theory object.
     
     Args:
         needs (ClassVar[Union[Sequence[str], str]]): attributes needed from 
@@ -331,10 +338,10 @@ class Stage(framework.ProjectBase, amos.quirks.Needy, abc.ABC):
     Attributes:
         bases (ClassVar[ProjectBases]): library that stores theory base classes 
             and allows runtime access and instancing of those stored subclasses.
-        subclasses (ClassVar[amos.types.Catalog]): library that stores 
+        subclasses (ClassVar[amos.Catalog]): library that stores 
             concrete subclasses and allows runtime access and instancing of 
             those stored subclasses. 
-        instances (ClassVar[amos.types.Catalog]): library that stores
+        instances (ClassVar[amos.Catalog]): library that stores
             subclass instances and allows runtime access of those stored 
             subclass instances.
                        

@@ -37,7 +37,7 @@ class Scale(amos.project.Step):
             method.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             True.
                                                 
@@ -66,7 +66,7 @@ class MinMaxScale(theory.components.SklearnTransformer):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             False.
                                                 
@@ -84,7 +84,7 @@ class MinMaxScale(theory.components.SklearnTransformer):
 
 
 
-scalers = amos.types.Library()
+scalers = amos.Library()
 
 
 @dataclasses.dataclass
@@ -105,7 +105,7 @@ class MaxAbsoluteScale(theory.components.SklearnTransformer):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             False.
                                                 
@@ -140,7 +140,7 @@ class NormalizeScale(theory.components.SklearnTransformer):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             False.
                                                 
@@ -175,7 +175,7 @@ class QuantileScale(theory.components.SklearnTransformer):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             False.
                                                 
@@ -210,7 +210,7 @@ class RobustScale(theory.components.SklearnTransformer):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             False.
                                                 
@@ -245,7 +245,7 @@ class StandardScale(theory.components.SklearnTransformer):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             False.
                                                 

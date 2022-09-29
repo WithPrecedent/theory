@@ -19,7 +19,7 @@ from . import base
 
 
 @dataclasses.dataclass
-class Test(ProjectDirector):
+class Test(TheoryDirector):
     """Applies statistical tests to data.
 
     Args:
@@ -58,7 +58,7 @@ class Test(ProjectDirector):
     
     
 @dataclasses.dataclass
-class Summarize(ProjectDirector):
+class Summarize(TheoryDirector):
     """Summarizes data.
 
     Args:
@@ -83,7 +83,7 @@ class Summarize(ProjectDirector):
     def draft(self) -> None:
         """Sets options for Summarize class."""
         super().draft()
-        self._options = ProjectRepository(contents = {
+        self._options = TheoryRepository(contents = {
             'count': Option(
                 name = 'count',
                 module = 'numpy.ndarray',

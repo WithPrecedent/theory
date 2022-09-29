@@ -18,11 +18,11 @@ import more_itertools
 import amos
 
 from . import base
-from . import stages
+from . import Phases
 
 
 @dataclasses.dataclass    
-class Parameters(amos.types.Lexicon):
+class Parameters(amos.Dictionary):
     """Creates and stores parameters for a theory component.
     
     Parameters allows parameters to be drawn from several different sources, 
@@ -99,7 +99,7 @@ class Parameters(amos.types.Lexicon):
                 self.contents[item] = self.default[item]
         # Adds any runtime parameters.
         if self.runtime:
-            self.add_runtime(project = project) 
+            self.add_runtime(theory =project) 
             # Limits parameters to those selected.
             if self.selected:
                 self.contents = {k: self.contents[k] for k in self.selected}
@@ -153,7 +153,7 @@ class Parameters(amos.types.Lexicon):
 
 
 @dataclasses.dataclass
-class ProjectProcess(base.Component, abc.ABC):
+class TheoryProcess(base.Process, abc.ABC):
     """Base class for parts of a amos Workflow.
 
     Args:
@@ -163,7 +163,7 @@ class ProjectProcess(base.Component, abc.ABC):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be drawn from 
             the 'instances' or 'subclasses' attributes.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -174,17 +174,17 @@ class ProjectProcess(base.Component, abc.ABC):
             should  be called. If 'iterations' is 'infinite', the 'implement' 
             method will continue indefinitely unless the method stops further 
             iteration. Defaults to 1.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Defaults to 
             False.
 
     Attributes:
         bases (ClassVar[ProjectBases]): library that stores theory base classes 
             and allows runtime access and instancing of those stored subclasses.
-        subclasses (ClassVar[amos.types.Catalog]): library that stores 
+        subclasses (ClassVar[amos.Catalog]): library that stores 
             concrete subclasses and allows runtime access and instancing of 
             those stored subclasses. 
-        instances (ClassVar[amos.types.Catalog]): library that stores
+        instances (ClassVar[amos.Catalog]): library that stores
             subclass instances and allows runtime access of those stored 
             subclass instances.
                 
@@ -210,11 +210,11 @@ class ProjectProcess(base.Component, abc.ABC):
         """ 
         if self.iterations in ['infinite']:
             while True:
-                project = self.implement(project = project, **kwargs)
+                theory =self.implement(theory =project, **kwargs)
         else:
             for iteration in range(self.iterations):
-                project = self.implement(project = project, **kwargs)
-        return project
+                theory =self.implement(theory =project, **kwargs)
+        return theory
 
     def implement(self, project: base.Theory, 
                   **kwargs) -> base.Theory:
@@ -233,12 +233,12 @@ class ProjectProcess(base.Component, abc.ABC):
         else:
             parameters = kwargs
         if self.contents not in [None, 'None', 'none']:
-            project = self.contents.execute(project = project, **parameters)
-        return project
+            theory =self.contents.execute(theory =project, **parameters)
+        return theory
 
 
 @dataclasses.dataclass
-class Step(ProjectProcess):
+class Step(TheoryProcess):
     """Wrapper for a Technique.
 
     Subclasses of Step can store additional methods and attributes to implement
@@ -256,7 +256,7 @@ class Step(ProjectProcess):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be drawn from 
             the 'instances' or 'subclasses' attributes.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -267,7 +267,7 @@ class Step(ProjectProcess):
             should  be called. If 'iterations' is 'infinite', the 'implement' 
             method will continue indefinitely unless the method stops further 
             iteration. Defaults to 1.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Because Steps
             are generally part of a parallel-structured workflow, the attribute
             defaults to True.
@@ -281,7 +281,7 @@ class Step(ProjectProcess):
 
     
 @dataclasses.dataclass
-class Technique(amos.quirks.Loader, ProjectProcess):
+class Technique(amos.quirks.Loader, TheoryProcess):
     """Primitive object for executing algorithms in a theory workflow.
 
     Args:
@@ -291,7 +291,7 @@ class Technique(amos.quirks.Loader, ProjectProcess):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be found in 
             'module'. Defaults to None.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -305,7 +305,7 @@ class Technique(amos.quirks.Loader, ProjectProcess):
         module (str): name of module where 'contents' is located if 'contents'
             is a string. It can either be a theory or external module, as
             long as it is available to the python environment. Defaults to None.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Defaults to 
             False.
                                                 
@@ -319,7 +319,7 @@ class Technique(amos.quirks.Loader, ProjectProcess):
 
               
 @dataclasses.dataclass
-class Worker(ProjectProcess):
+class Worker(TheoryProcess):
     """An iterable in a amos workflow that maintains its own workflow.
 
     Args:
@@ -329,7 +329,7 @@ class Worker(ProjectProcess):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be drawn from 
             the 'instances' or 'subclasses' attributes.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -340,9 +340,9 @@ class Worker(ProjectProcess):
             should  be called. If 'iterations' is 'infinite', the 'implement' 
             method will continue indefinitely unless the method stops further 
             iteration. Defaults to 1.
-        workflow (stages.Workflow): a workflow of other theory Components.
+        workflow (Phases.Workflow): a workflow of other theory Processs.
             Defaults to an empty Workflow.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Because Steps
             are generally part of a parallel-structured workflow, the attribute
             defaults to True.
@@ -352,7 +352,7 @@ class Worker(ProjectProcess):
     contents: Union[Callable, Type, object, str] = None
     parameters: Union[Mapping[str, Any], base.Parameters] = base.Parameters()
     iterations: Union[int, str] = 1
-    workflow: stages.Workflow = stages.Workflow()
+    workflow: Phases.Workflow = Phases.Workflow()
     parallel: ClassVar[bool] = True
     
     """ Public Class Methods """
@@ -372,7 +372,7 @@ class Worker(ProjectProcess):
         """        
         worker = super().from_outline(name = name, outline = outline, **kwargs)
         if hasattr(worker, 'workflow'):
-            worker.workflow = cls.bases.stage.library.borrow(
+            worker.workflow = cls.bases.Phase.library.borrow(
                 names = 'workflow')()
             if worker.parallel:
                 method = cls._create_parallel
@@ -431,7 +431,7 @@ class Worker(ProjectProcess):
         return worker
 
     @classmethod
-    def _depth_first(cls, name: str, outline: base.Stage) -> List:
+    def _depth_first(cls, name: str, outline: base.Phase) -> List:
         """
 
         Args:
@@ -468,7 +468,7 @@ class Pipeline(Worker):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be drawn from 
             the 'instances' or 'subclasses' attributes.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -479,9 +479,9 @@ class Pipeline(Worker):
             should  be called. If 'iterations' is 'infinite', the 'implement' 
             method will continue indefinitely unless the method stops further 
             iteration. Defaults to 1.
-        workflow (stages.Workflow): a workflow of other theory Components.
+        workflow (Phases.Workflow): a workflow of other theory Processs.
             Defaults to an empty Workflow.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Because Steps
             are generally part of a parallel-structured workflow, the attribute
             defaults to True.
@@ -491,7 +491,7 @@ class Pipeline(Worker):
     contents: Union[Callable, Type, object, str] = None
     parameters: Union[Mapping[str, Any], base.Parameters] = base.Parameters()
     iterations: Union[int, str] = 1
-    workflow: stages.Workflow = stages.Workflow()
+    workflow: Phases.Workflow = Phases.Workflow()
     parallel: ClassVar[bool] = True
     
 
@@ -508,7 +508,7 @@ class ParallelWorker(Worker, abc.ABC):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be drawn from 
             the 'instances' or 'subclasses' attributes.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -519,9 +519,9 @@ class ParallelWorker(Worker, abc.ABC):
             should  be called. If 'iterations' is 'infinite', the 'implement' 
             method will continue indefinitely unless the method stops further 
             iteration. Defaults to 1.
-        workflow (stages.Workflow): a workflow of other theory Components.
+        workflow (Phases.Workflow): a workflow of other theory Processs.
             Defaults to an empty Workflow.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Because Steps
             are generally part of a parallel-structured workflow, the attribute
             defaults to True.
@@ -531,7 +531,7 @@ class ParallelWorker(Worker, abc.ABC):
     contents: Union[Callable, Type, object, str] = None
     parameters: Union[Mapping[str, Any], base.Parameters] = base.Parameters()
     iterations: Union[int, str] = 1
-    workflow: stages.Workflow = stages.Workflow()
+    workflow: Phases.Workflow = Phases.Workflow()
     parallel: ClassVar[bool] = True
 
     """ Public Methods """
@@ -558,11 +558,11 @@ class ParallelWorker(Worker, abc.ABC):
         """Applies 'implementation' to 'project' using multiple cores.
 
         Args:
-            project (Project): amos project to apply changes to and/or
+            project (Theory): amos project to apply changes to and/or
                 gather needed data from.
                 
         Returns:
-            Project: with possible alterations made.       
+            Theory: with possible alterations made.       
         
         """
         multiprocessing.set_start_method('spawn')
@@ -574,11 +574,11 @@ class ParallelWorker(Worker, abc.ABC):
         """Applies 'implementation' to 'project' using multiple cores.
 
         Args:
-            project (Project): amos project to apply changes to and/or
+            project (Theory): amos project to apply changes to and/or
                 gather needed data from.
                 
         Returns:
-            Project: with possible alterations made.       
+            Theory: with possible alterations made.       
         
         """
         for path in self.workflow.permutations:
@@ -605,7 +605,7 @@ class Contest(ParallelWorker):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be drawn from 
             the 'instances' or 'subclasses' attributes.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -616,9 +616,9 @@ class Contest(ParallelWorker):
             should  be called. If 'iterations' is 'infinite', the 'implement' 
             method will continue indefinitely unless the method stops further 
             iteration. Defaults to 1.
-        workflow (stages.Workflow): a workflow of other theory Components.
+        workflow (Phases.Workflow): a workflow of other theory Processs.
             Defaults to an empty Workflow.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Because Steps
             are generally part of a parallel-structured workflow, the attribute
             defaults to True.
@@ -628,7 +628,7 @@ class Contest(ParallelWorker):
     contents: Union[Callable, Type, object, str] = None
     parameters: Union[Mapping[str, Any], base.Parameters] = base.Parameters()
     iterations: Union[int, str] = 1
-    workflow: stages.Workflow = stages.Workflow()
+    workflow: Phases.Workflow = Phases.Workflow()
     parallel: ClassVar[bool] = True
 
     """ Public Methods """
@@ -660,7 +660,7 @@ class Study(ParallelWorker):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be drawn from 
             the 'instances' or 'subclasses' attributes.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -671,9 +671,9 @@ class Study(ParallelWorker):
             should  be called. If 'iterations' is 'infinite', the 'implement' 
             method will continue indefinitely unless the method stops further 
             iteration. Defaults to 1.
-        workflow (stages.Workflow): a workflow of other theory Components.
+        workflow (Phases.Workflow): a workflow of other theory Processs.
             Defaults to an empty Workflow.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Because Steps
             are generally part of a parallel-structured workflow, the attribute
             defaults to True.
@@ -683,7 +683,7 @@ class Study(ParallelWorker):
     contents: Union[Callable, Type, object, str] = None
     parameters: Union[Mapping[str, Any], base.Parameters] = base.Parameters()
     iterations: Union[int, str] = 1
-    workflow: stages.Workflow = stages.Workflow()
+    workflow: Phases.Workflow = Phases.Workflow()
     parallel: ClassVar[bool] = True
 
     """ Public Methods """
@@ -714,7 +714,7 @@ class Survey(ParallelWorker):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be drawn from 
             the 'instances' or 'subclasses' attributes.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -725,9 +725,9 @@ class Survey(ParallelWorker):
             should  be called. If 'iterations' is 'infinite', the 'implement' 
             method will continue indefinitely unless the method stops further 
             iteration. Defaults to 1.
-        workflow (stages.Workflow): a workflow of other theory Components.
+        workflow (Phases.Workflow): a workflow of other theory Processs.
             Defaults to an empty Workflow.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Because Steps
             are generally part of a parallel-structured workflow, the attribute
             defaults to True.
@@ -737,7 +737,7 @@ class Survey(ParallelWorker):
     contents: Union[Callable, Type, object, str] = None
     parameters: Union[Mapping[str, Any], base.Parameters] = base.Parameters()
     iterations: Union[int, str] = 1
-    workflow: stages.Workflow = stages.Workflow()
+    workflow: Phases.Workflow = Phases.Workflow()
     parallel: ClassVar[bool] = True
 
     """ Public Methods """

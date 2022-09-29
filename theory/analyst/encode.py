@@ -17,7 +17,7 @@ from . import base
 import theory
 
 
-encoders = amos.types.Library()
+encoders = amos.Library()
 
 
 @dataclasses.dataclass
@@ -41,7 +41,7 @@ class Encode(amos.project.Step):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             True.
                                                 
@@ -71,7 +71,7 @@ class CategoryEncoder(theory.quirks.SklearnTransformer,
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             False.
             
@@ -96,7 +96,7 @@ class CategoryEncoder(theory.quirks.SklearnTransformer,
             
         """
         try:
-            self.parameters = self.parameters.finalize(project = project)
+            self.parameters = self.parameters.finalize(theory =project)
         except AttributeError:
             pass
         self.contents = self.contents(**self.parameters)
@@ -108,7 +108,7 @@ class CategoryEncoder(theory.quirks.SklearnTransformer,
         if data.x_validate is not None:
             data.x_validate = self.contents.transform(data.x_validate)
         project.data = data
-        return project
+        return theory
                       
 
 category_encoders = {

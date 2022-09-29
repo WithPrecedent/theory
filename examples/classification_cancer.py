@@ -16,7 +16,7 @@ import pandas as pd
 import numpy as np
 import sklearn.datasets
 
-from theory import Project
+from theory import Theory
 
 
 # Loads cancer data and converts from numpy arrays to a pandas DataFrame.
@@ -33,7 +33,7 @@ idea = pathlib.Path.cwd().joinpath('examples', 'cancer_settings.ini')
 
 # Creates theory project, automatically configuring the process based upon
 # settings in the 'idea_file'.
-cancer_project = Project(
+cancer_theory =Theory(
     idea = idea,
     # clerk = root_folder,
     dataset = df)

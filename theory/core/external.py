@@ -18,7 +18,7 @@ import amos
 
 from . import base
 from . import components
-from . import stages
+from . import Phases
 
 
 @dataclasses.dataclass
@@ -32,7 +32,7 @@ class SklearnModel(components.Technique):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be found in 
             'module'. Defaults to None.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -46,7 +46,7 @@ class SklearnModel(components.Technique):
         module (str): name of module where 'contents' is located if 'contents'
             is a string. It can either be a theory or external module, as
             long as it is available to the python environment. Defaults to None.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Defaults to 
             False.
                                                 
@@ -71,12 +71,12 @@ class SklearnModel(components.Technique):
             
         """
         try:
-            self.parameters = self.parameters.finalize(project = project)
+            self.parameters = self.parameters.finalize(theory =project)
         except AttributeError:
             pass
         self.contents = self.contents(**self.parameters)
         self.contents.fit[project.data.x_train]
-        return project
+        return theory
 
 
 @dataclasses.dataclass
@@ -90,7 +90,7 @@ class SklearnSplitter(components.Technique):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be found in 
             'module'. Defaults to None.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -104,7 +104,7 @@ class SklearnSplitter(components.Technique):
         module (str): name of module where 'contents' is located if 'contents'
             is a string. It can either be a theory or external module, as
             long as it is available to the python environment. Defaults to None.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Defaults to 
             False.
                                                 
@@ -129,13 +129,13 @@ class SklearnSplitter(components.Technique):
             
         """
         try:
-            self.parameters = self.parameters.finalize(project = project)
+            self.parameters = self.parameters.finalize(theory =project)
         except AttributeError:
             pass
         self.contents = self.contents(**self.parameters)
         project.data.splits = tuple(self.contents.split(project.data.x))
         project.data.split()
-        return project
+        return theory
     
     
 @dataclasses.dataclass
@@ -149,7 +149,7 @@ class SklearnTransformer(components.Technique):
             the appropriate section name in a Settings instance. Defaults to 
             None. 
         contents (Union[Callable, Type, object, str]): stored item(s) for use by 
-            a Component subclass instance. If it is Type or str, an instance 
+            a Process subclass instance. If it is Type or str, an instance 
             will be created. If it is a str, that instance will be found in 
             'module'. Defaults to None.
         parameters (Union[Mapping[str, Any], base.Parameters]): parameters, in 
@@ -163,7 +163,7 @@ class SklearnTransformer(components.Technique):
         module (str): name of module where 'contents' is located if 'contents'
             is a string. It can either be a theory or external module, as
             long as it is available to the python environment. Defaults to None.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be part of a parallel workflow structure. Defaults to 
             False.
                                                 
@@ -188,7 +188,7 @@ class SklearnTransformer(components.Technique):
             
         """
         try:
-            self.parameters = self.parameters.finalize(project = project)
+            self.parameters = self.parameters.finalize(theory =project)
         except AttributeError:
             pass
         self.contents = self.contents(**self.parameters)
@@ -200,5 +200,5 @@ class SklearnTransformer(components.Technique):
         if data.x_validate is not None:
             data.x_validate = self.contents.transform(data.x_validate)
         project.data = data
-        return project
+        return theory
                

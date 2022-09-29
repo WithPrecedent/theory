@@ -17,16 +17,16 @@ import theory
 
 
 @dataclasses.dataclass
-class Critic(base.ProjectManager):
+class Critic(base.TheoryManager):
     """Manages a distinct portion of a data science project workflow.
 
     Args:
         name (str): designates the name of a class instance that is used for 
             internal referencing throughout amos. For example, if a 
-            amos instance needs settings from a Idea
+            amos instance needs settings from an Idea
             instance, 'name' should match the appropriate section name in a 
             Idea instance. Defaults to None. 
-        workflow (base.ProjectWorkflow): a workflow of a project subpart derived 
+        workflow (base.TheoryWorkflow): a workflow of a project subpart derived 
             from 'outline'. Defaults to None.
         needs (ClassVar[Union[Sequence[str], str]]): attributes needed from 
             another instance for some method within a subclass. Defaults to an
@@ -34,12 +34,12 @@ class Critic(base.ProjectManager):
                 
     """
     name: str = 'critic'
-    workflow: base.ProjectWorkflow = None
+    workflow: base.TheoryWorkflow = None
     needs: ClassVar[Union[Sequence[str], str]] = ['outline', 'name']
 
 
 @dataclasses.dataclass
-class Anthology(base.ProjectSummary):
+class Anthology(base.TheorySummary):
     """Collects and stores results of executing a data science project workflow.
     
     Args:
@@ -61,7 +61,7 @@ class Anthology(base.ProjectSummary):
     
 
 @dataclasses.dataclass
-class ProjectEli5(base.ProjectTechnique):
+class TheoryEli5(base.TheoryTechnique):
     
     name: str = 'eli5_explainer'
     module: str = 'theory.critic'
@@ -69,7 +69,7 @@ class ProjectEli5(base.ProjectTechnique):
 
 
 @dataclasses.dataclass
-class ProjectShap(base.ProjectTechnique):
+class TheoryShap(base.TheoryTechnique):
     
     name: str = 'shap_explainer'
     module: str = 'theory.critic'
@@ -77,73 +77,73 @@ class ProjectShap(base.ProjectTechnique):
 
 
 
-# options = amos.types.Catalog(contents = {
+# options = amos.Catalog(contents = {
 #     'explain': {
-#         'eli5': base.ProjectTechnique(
+#         'eli5': base.TheoryTechnique(
 #             name = 'eli5_explain',
 #             module = 'theory.critic.explainers',
 #             algorithm = 'Eli5Explain'),
-#         'shap': base.ProjectTechnique(
+#         'shap': base.TheoryTechnique(
 #             name = 'shap_explain',
 #             module = 'theory.critic.explainers',
 #             algorithm = 'ShapExplain'),
-#         'skater': base.ProjectTechnique(
+#         'skater': base.TheoryTechnique(
 #             name = 'skater_explain',
 #             module = 'theory.critic.explainers',
 #             algorithm = 'SkaterExplain'),
-#         'sklearn': base.ProjectTechnique(
+#         'sklearn': base.TheoryTechnique(
 #             name = 'sklearn_explain',
 #             module = 'theory.critic.explainers',
 #             algorithm = 'SklearnExplain')},
 #     'predict': {
-#         'eli5': base.ProjectTechnique(
+#         'eli5': base.TheoryTechnique(
 #             name = 'eli5_predict',
 #             module = 'theory.critic.predictors',
 #             algorithm = 'Eli5Predict'),
-#         'shap': base.ProjectTechnique(
+#         'shap': base.TheoryTechnique(
 #             name = 'shap_predict',
 #             module = 'theory.critic.predictors',
 #             algorithm = 'ShapPredict'),
-#         'skater': base.ProjectTechnique(
+#         'skater': base.TheoryTechnique(
 #             name = 'skater_predict',
 #             module = 'theory.critic.predictors',
 #             algorithm = 'SkaterPredict'),
-#         'sklearn': base.ProjectTechnique(
+#         'sklearn': base.TheoryTechnique(
 #             name = 'sklearn_predict',
 #             module = 'theory.critic.predictors',
 #             algorithm = 'SklearnPredict')},
 #     'rank': {
-#         'eli5': base.ProjectTechnique(
+#         'eli5': base.TheoryTechnique(
 #             name = 'eli5_rank',
 #             module = 'theory.critic.rankers',
 #             algorithm = 'Eli5Rank'),
-#         'shap': base.ProjectTechnique(
+#         'shap': base.TheoryTechnique(
 #             name = 'shap_rank',
 #             module = 'theory.critic.rankers',
 #             algorithm = 'ShapRank'),
-#         'skater': base.ProjectTechnique(
+#         'skater': base.TheoryTechnique(
 #             name = 'skater_rank',
 #             module = 'theory.critic.rankers',
 #             algorithm = 'SkaterRank'),
-#         'sklearn': base.ProjectTechnique(
+#         'sklearn': base.TheoryTechnique(
 #             name = 'sklearn_rank',
 #             module = 'theory.critic.rankers',
 #             algorithm = 'SklearnRank')},
 #     'measure': {
-#         'theory': base.ProjectTechnique(
+#         'theory': base.TheoryTechnique(
 #             name = 'theory_measure',
 #             module = 'theory.critic.metrics',
 #             algorithm = 'theoryMeasure'),
-#         'sklearn': base.ProjectTechnique(
+#         'sklearn': base.TheoryTechnique(
 #             name = 'sklearn_measure',
 #             module = 'theory.critic.metrics',
 #             algorithm = 'SklearnMeasure')},
 #     'report': {
-#         'theory': base.ProjectTechnique(
+#         'theory': base.TheoryTechnique(
 #             name = 'theory_report',
 #             module = 'theory.critic.reporters',
 #             algorithm = 'theoryReport'),
-#         'sklearn': base.ProjectTechnique(
+#         'sklearn': base.TheoryTechnique(
 #             name = 'sklearn_report',
 #             module = 'theory.critic.reporters',
 #             algorithm = 'SklearnReport')}})
@@ -185,7 +185,7 @@ class Anthology(Book):
         techniques (Optional[List['Technique']]): 'Technique' instances to
             apply. In an ordinary project, 'techniques' are not passed to an
             Anthology instance, but are instead created from 'steps' when the
-            'publish' method of a 'Project' instance is called. Defaults to
+            'publish' method of a 'Theory' instance is called. Defaults to
             an empty list.
 
     """
@@ -404,7 +404,7 @@ class CriticSpecialist(Specialist):
 
 @dataclasses.dataclass
 class Critic(Worker):
-    """Object construction instructions used by a Project instance.
+    """Object construction instructions used by a Theory instance.
 
     Args:
         name (str): designates the name of the class used for internal
@@ -433,7 +433,7 @@ class Critic(Worker):
             options for the 'Worker' instance to utilize or a string
             corresponding to a dictionary in 'module' to load. Defaults to an
             empty dictionary.
-        data (Optional[str]): name of attribute or key in a 'Project' instance
+        data (Optional[str]): name of attribute or key in a 'Theory' instance
             'books' to use as a data object to apply methods to. Defaults to
             'dataset'.
         import_folder (Optional[str]): name of attribute in 'clerk' which

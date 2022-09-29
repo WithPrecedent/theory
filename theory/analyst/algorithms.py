@@ -25,7 +25,7 @@ import amos
 
 
 @dataclasses.dataclass
-class Gaussify(theory.core.ProjectAlgorithm):
+class Gaussify(theory.core.TheoryAlgorithm):
     """Transforms data columns to more gaussian distribution.
 
     The particular method applied is chosen between 'box-cox' and 'yeo-johnson'
@@ -420,7 +420,7 @@ class Recipe(Chapter):
         techniques (Optional[List['Technique']]): 'Technique' instances to
             apply. In an ordinary project, 'techniques' are not passed to a
             Chapter instance, but are instead created from 'steps' when the
-            'publish' method of a 'Project' instance is called. Defaults to
+            'publish' method of a 'Theory' instance is called. Defaults to
             an empty list.
 
     """
@@ -554,7 +554,7 @@ class Tool(Technique):
     """ Core theory Methods """
 
     def apply(self, data: 'Dataset') -> 'Dataset':
-        if data.stages.current in ['full']:
+        if data.Phases.current in ['full']:
             self.fit(x = data.x, y = data.y)
             data.x = self.transform(x = data.x, y = data.y)
         else:
@@ -857,7 +857,7 @@ class AnalystSpecialist(Specialist):
             'Chapter', 'Dataset': with any changes made.
 
         """
-        data.stages.change('testing')
+        data.Phases.change('testing')
         split_algorithm = chapter.techniques[index].algorithm
         for i, (train_index, test_index) in enumerate(
             split_algorithm.split(data.x, data.y)):
@@ -898,7 +898,7 @@ class AnalystSpecialist(Specialist):
 """ Options """
 
 @dataclasses.dataclass
-class Tools(ProjectRepository):
+class Tools(TheoryRepository):
     """A dictonary of Tool options for the Analyst subpackage.
 
     Args:
@@ -926,7 +926,7 @@ class Tools(ProjectRepository):
                 'impute': Tool(
                     name = 'defaults',
                     module = 'sklearn.impute',
-                    algorithm = 'ProjectImputer',
+                    algorithm = 'TheoryImputer',
                     default = {'defaults': {}}),
                 'knn_impute': Tool(
                     name = 'defaults',

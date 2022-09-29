@@ -3,7 +3,7 @@
 theory offers tools to make data science more accessible, with a particular
 emphasis on its use in academic research. To that end, the package avoids
 programming jargon (when possible) and implements a unified code architecture
-for all stages of a data science project. So, classes and methods for data
+for all Phases of a data science project. So, classes and methods for data
 scraping, parsing, munging, merging, preprocessing, modelling, analyzing, and
 visualizing use the same vocabulary so that theory can be easily used and
 extended.
@@ -54,7 +54,7 @@ theory provides a cleaner, universal set of tools to access the many useful meth
 
 ## The theory Plan
 
-To understand a typical use-case for theory, let's examine a project that omits the Wrangler stage and proceeds directly to preprocessing and modeling. At the end of this discussion of the general process, an example using the Wisconsin breast cancer data is included.
+To understand a typical use-case for theory, let's examine a project that omits the Wrangler Phase and proceeds directly to preprocessing and modeling. At the end of this discussion of the general process, an example using the Wisconsin breast cancer data is included.
 
 ### theory Analyst
 
@@ -67,7 +67,7 @@ custom steps and steps):
 * Split: divides data into train, test, and/or validation sets once or iteratively through k-folds cross-validation.
 * Encode: converts categorical features into numerical ones, using category-encoders methods.
 * Mix: converts selected features into new polynomial features, using PolynomialEncoder from category-encoders or other mathmatical combinations.
-* Cleave: creates different subgroups of features to allow for easy comparison between them. This stage is of particular importance to academic research and has
+* Cleave: creates different subgroups of features to allow for easy comparison between them. This Phase is of particular importance to academic research and has
 largely been omitted from existing efforts to theory machine learning.
 * Sample: synthetically resamples training data for imbalanced data, using imblearn methods, for use with models that struggle with imbalanced data.
 * Reduce: selects features recursively or as one-shot based upon user criteria, using scikit-learn and prince methods.
@@ -75,11 +75,11 @@ largely been omitted from existing efforts to theory machine learning.
 
 ### theory Critic
 
-As part of any machine learning workflow, assessment of prepared models is an essential entity. The Critic subpackage divides the evaluation process into four major stages:
+As part of any machine learning workflow, assessment of prepared models is an essential entity. The Critic subpackage divides the evaluation process into four major Phases:
 * Summarize: building beyond the pandas describe method, this step includes a wide number of summary statistics for the user data, appropriately calculated based upon the data type of a particular variable.
 * Score: automatically determining the compatibility of various scikit-learn and/or user-provided metrics, results for each recipe are calcuated.
 * Evaluate: using explainers from shap, skater, and eli5, the various recipes are evaluated, feature importances calculated, and cumulative comparisons are made.
-* Report: the above stages are compiled into appropriate reports which are exported to disk or, in some cases, outputted to the terminal.
+* Report: the above Phases are compiled into appropriate reports which are exported to disk or, in some cases, outputted to the terminal.
 
 ### theory Artist
 

@@ -38,7 +38,7 @@ class Reduce(amos.project.Step):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             True.
                                                 

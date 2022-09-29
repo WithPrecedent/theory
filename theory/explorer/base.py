@@ -25,7 +25,7 @@ class Ledger(Book):
 
     """
     name: Optional[str] = 'explorer'
-    steps: Optional[Dict[str, 'ProjectDirector']] = None
+    steps: Optional[Dict[str, 'TheoryDirector']] = None
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -93,7 +93,7 @@ class Ledger(Book):
 
     def draft(self) -> None:
         """Sets default options for the Explorer's analysis."""
-        self._options = ProjectRepository(contents = {
+        self._options = TheoryRepository(contents = {
             'summary': ('theory.explorer.steps.summarize', 'Summarize'),
             'test': ('theory.explorer.steps.test', 'Test')}
         # Sets plan container

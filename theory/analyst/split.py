@@ -34,7 +34,7 @@ class Split(amos.project.Step):
             method.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             True.
                                                 
@@ -64,7 +64,7 @@ class SklearnSplitter(amos.project.Technique):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             False.
             
@@ -90,15 +90,15 @@ class SklearnSplitter(amos.project.Technique):
             
         """
         try:
-            self.parameters = self.parameters.finalize(project = project)
+            self.parameters = self.parameters.finalize(theory =project)
         except AttributeError:
             pass
         self.contents = self.contents(**self.parameters)
         project.data.splits = tuple(self.contents.split(project.data.x))
         project.data.split()
-        return project
+        return theory
 
-splitters = amos.types.Library(
+splitters = amos.Library(
     contents = {
         'train_test_split': SklearnSplitter(
             name = 'train test',

@@ -17,7 +17,7 @@ License: Apache-2.0
     limitations under the License.
 
 Contents:
-    Project (base.Theory): main access point and interface for
+    Theory (base.Theory): main access point and interface for
         creating and implementing data science projects.
     
 """
@@ -34,5 +34,5 @@ import numpy as np
 import pandas as pd
 
 from . import base
-from . import stages
+from . import Phases
 

@@ -53,7 +53,7 @@ def dictify_options(item: Any) -> dict[str, str]:
 if __name__ == '__main__':
     # Gets command line arguments and converts them to dict.
     arguments = dictify_options(item = sys.argv)
-    # Calls Project with passed command-line arguments.
+    # Calls Theory with passed command-line arguments.
     core.interface.Theory(
         idea = arguments.get('-idea'),
         clerk = arguments.get('-clerk', None),

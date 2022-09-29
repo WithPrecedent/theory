@@ -1,5 +1,5 @@
 """
-stages: interim and final stages of a project
+Phases: interim and final Phases of a project
 Corey Rayburn Yung <coreyrayburnyung@gmail.com>
 Copyright 2020-2021, Corey Rayburn Yung
 License: Apache-2.0 (https://www.apache.org/licenses/LICENSE-2.0)
@@ -23,7 +23,7 @@ from . import base
 
 
 @dataclasses.dataclass
-class Outline(base.Stage):
+class Outline(base.Phase):
     """Information needed to construct and execute a Workflow.
 
     Args:
@@ -224,7 +224,7 @@ class Outline(base.Stage):
        
 
 @dataclasses.dataclass
-class Workflow(base.Stage, amos.Graph):
+class Workflow(base.Phase, amos.Graph):
     """Stores lightweight workflow and corresponding components.
     
     Args:
@@ -233,7 +233,7 @@ class Workflow(base.Stage, amos.Graph):
             is connected to. Defaults to an empty dict.
         default (Any): default value to use when a key is missing and a new
             one is automatically corrected. Defaults to an empty list.
-        components (amos.Library): stores Component instances that 
+        components (amos.Library): stores Process instances that 
             correspond to nodes in 'contents'. Defaults to an empty Library.
         needs (ClassVar[Union[Sequence[str], str]]): attributes needed from 
             another instance for some method within a subclass. Defaults to 
@@ -348,7 +348,7 @@ class Workflow(base.Stage, amos.Graph):
   
 
 @dataclasses.dataclass
-class Summary(amos.types.Lexicon, base.Stage):
+class Summary(amos.Dictionary, base.Phase):
     """Collects and stores results of executing a Workflow.
     
     Args:

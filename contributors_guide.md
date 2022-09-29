@@ -1,6 +1,6 @@
 # Contribution Guidelines
 
-theory uses a code structure patterned after the writing process. Each major subpackage in the theory package  (Wrangler, Analyst, Explorer, Critic, Artist)creates a Book object which contains particular implementations (Chapters) which have one or more steps (ProjectRepository).
+theory uses a code structure patterned after the writing process. Each major subpackage in the theory package  (Wrangler, Analyst, Explorer, Critic, Artist)creates a Book object which contains particular implementations (Chapters) which have one or more steps (TheoryRepository).
 
     Wrangler creates an Manual of Plans.
     Analyst creates a Cookbook of Recipes.
@@ -8,7 +8,7 @@ theory uses a code structure patterned after the writing process. Each major sub
     Critic creates a Collection of Reviews.
     Artist creates a Canvas of Illustrations.
 
-theory is fully extensible. Additional subpackages, Books, Chapters, and ProjectRepository can be added to a Project. To contribute to theory, please follow these basic rules:
+theory is fully extensible. Additional subpackages, Books, Chapters, and TheoryRepository can be added to a Theory. To contribute to theory, please follow these basic rules:
 
 ## Style
 
@@ -19,19 +19,19 @@ It is particularly important for contributions to follow the Google style for do
 2. Explicitness preferences are heightened beyond PEP8 guidelines. Varible names should be verbose enough so that there meaning is clear and consistent. Annotations (using python 3.7+) should always be used in arguments and docstrings. As theory is intended to be used by all levels of coders (and by non-coders as well), it is important to make everything as clear as possible to someone seeing the code for the first time. List and dict comprehensions are disfavored. If there are significant speed advantages to using a comprehension,
 please wrap them in a function or method (as with the 'add_suffix' and 'add_prefix' functions in theory.core.utilities).
 
-3. Follow the package naming conventions. All abstract base classes begin with the prefix 'Project'. Generally, theory tries to avoid cluttering user namespace with commonly used object names (an exception was made for the 'apply' method).
+3. Follow the package naming conventions. All abstract base classes begin with the prefix 'Theory'. Generally, theory tries to avoid cluttering user namespace with commonly used object names (an exception was made for the 'apply' method).
 
 4. theory follows an object-oriented approach because that makes integration with scikit-learn and general modularity easier. Contributions are not precluded from using other programming styles, but class wrappers might be needed to interface properly with the overall theory structure. In fact, the interfaces for deep learning packages are largely wrappers for functional programming.
 
 ## Structure
 
-1. All base classes should have a similar interface of methods. Each base class divides processes into three stages, again patterned after the writing process which are the core methods used throughout the theory package:
+1. All base classes should have a similar interface of methods. Each base class divides processes into three Phases, again patterned after the writing process which are the core methods used throughout the theory package:
 
     * draft: sets default attributes (required).
     * publish: finalizes attributes after any runtime changes. (required).
     * apply: applies selected options to passed arguments (optional).
 
-Any new subpackages, Books, Chapters, and ProjectRepository should follow a similar template. All classes within theory should use the new @dataclasses.dataclass accessor to minimize boilerplate code (introduced in python 3.7)
+Any new subpackages, Books, Chapters, and TheoryRepository should follow a similar template. All classes within theory should use the new @dataclasses.dataclass accessor to minimize boilerplate code (introduced in python 3.7)
 
 2. theory lazily (runtime) loads most external and internal modules. This is done to lower overhead and incorporate "soft" dependencies. As a result, contributions hould follow these general idioms for importing objects within modules.
 
@@ -45,7 +45,7 @@ Any new subpackages, Books, Chapters, and ProjectRepository should follow a simi
 
         getattr(importlib.import_module(self.workers[key][0]), self.workers[key][1])
 
-    For Technique-level classes, a special class has been created to construct needed external and internal objects. It is the Option class in the Contributor module. Follow the documentation there for creating ProjectRepository.
+    For Technique-level classes, a special class has been created to construct needed external and internal objects. It is the Option class in the Contributor module. Follow the documentation there for creating TheoryRepository.
 
     Chapters should not require an module importation.
 
@@ -65,7 +65,7 @@ Any new subpackages, Books, Chapters, and ProjectRepository should follow a simi
 
 4. Any generally usable functions or decorators should be stored in theory.core.utilities.
 
-5. If you create a proxy for typing, please subclass the ProjectType class in theory.core.definitionsetter, if possible.
+5. If you create a proxy for typing, please subclass the TheoryType class in theory.core.definitionsetter, if possible.
 
 6. State management is currently handled by classes in theory.core.states, but are typically accessed indirectly. The overall 'worker' attribute is an attribute to a Clerk instance and 'data_state' is an attribute to an Dataset instance.
 

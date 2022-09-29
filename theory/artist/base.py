@@ -74,7 +74,7 @@ class Canvas(Book):
     """ Private Methods """
 
     def _draft_options(self) -> None:
-        self._options = ProjectRepository(contents = {
+        self._options = TheoryRepository(contents = {
             'styler': ('theory.artist.steps.styler', 'Styler'),
             'painter': ('theory.artist.steps.paint', 'Painter'),
             'animator': ('theory.artist.steps.animator', 'Animator')}

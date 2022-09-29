@@ -20,7 +20,7 @@ from . import base
 
 
 @dataclasses.dataclass
-class Sow(ProjectIterable):
+class Sow(TheoryIterable):
     """Acquires and performs basic preparation of data sources.
 
     Args:
@@ -126,7 +126,7 @@ class Download(WranglerTechnique):
 
 
 @dataclasses.dataclass
-class Harvest(ProjectIterable):
+class Harvest(TheoryIterable):
     """Extracts data from text or other sources.
 
     Args:
@@ -197,7 +197,7 @@ class Harvest(ProjectIterable):
     
     
 @dataclasses.dataclass
-class Bale(ProjectIterable):
+class Bale(TheoryIterable):
     """Class for combining different datasets."""
     step: object = None
     parameters: object = None
@@ -221,7 +221,7 @@ class Bale(ProjectIterable):
 
 
 @dataclasses.dataclass
-class Clean(ProjectIterable):
+class Clean(TheoryIterable):
     """Cleans, munges, and parsers data using fast, vectorized methods.
 
     Args:
@@ -299,7 +299,7 @@ class Combine(WranglerTechnique):
         return dataset
 
     def draft(self) -> None:
-        self._options = ProjectRepository(contents = {'all': self._combine_all,
+        self._options = TheoryRepository(contents = {'all': self._combine_all,
                         'any': self._combine_any,
                         'dict': self._dict}
         if isinstance(self.method, str):
@@ -314,7 +314,7 @@ class Combine(WranglerTechnique):
         
 
 @dataclasses.dataclass
-class Deliver(ProjectIterable):
+class Deliver(TheoryIterable):
     """Makes final structural changes to data before analysis.
 
     Args:
@@ -404,7 +404,7 @@ class Merge(WranglerTechnique):
         return self
 
     def draft(self) -> None:
-        self._options = ProjectRepository(contents = {}
+        self._options = TheoryRepository(contents = {}
         return self
 
     def publish(self, dataset, sources):
@@ -509,7 +509,7 @@ class Supplement(WranglerTechnique):
         return self
 
     def draft(self) -> None:
-        self._options = ProjectRepository(contents = {}
+        self._options = TheoryRepository(contents = {}
         return self
 
     def publish(self, dataset, sources):

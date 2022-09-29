@@ -5,8 +5,8 @@ Copyright 2020, Corey Rayburn Yung
 License: Apache-2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 
 Contents:
-    Analyst (ProjectManager):
-    Report (ProjectSummary):
+    Analyst (TheoryManager):
+    Report (TheorySummary):
     
 """
 from __future__ import annotations
@@ -36,7 +36,7 @@ class Analyst(amos.project.Worker):
             amos instance needs settings from a Configuration instance, 
             'name' should match the appropriate section name in a Configuration 
             instance. Defaults to None.
-        contents (Any): stored item for use by a Component subclass instance.
+        contents (Any): stored item for use by a Process subclass instance.
         workflow (amos.project.Workflow): a workflow of a project subpart 
             derived from an Outline. Defaults to None.
         iterations (Union[int, str]): number of times the 'implement' method 
@@ -45,7 +45,7 @@ class Analyst(amos.project.Worker):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             False.
                                                
@@ -61,7 +61,7 @@ class Analyst(amos.project.Worker):
     
     def implement(self, project: base.Theory, 
                   **kwargs) -> base.Theory:
-        return project  
+        return theory  
 
 
     @decorators.numpy_shield
@@ -120,7 +120,7 @@ class Analyst(amos.project.Worker):
 
 
 @dataclasses.dataclass
-class Report(theory.base.ProjectSummary):
+class Report(theory.base.TheorySummary):
     """Collects and stores results of executing a data science project workflow.
     
     Args:

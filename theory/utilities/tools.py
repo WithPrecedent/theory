@@ -16,7 +16,7 @@ import pandas as pd
 """ Mixins """
 
 @dataclasses.dataclass
-class ProjectIterables(object):
+class TheoryIterables(object):
 
     @staticmethod
     def edit_prefix(iterable, prefix):
@@ -47,7 +47,7 @@ class ProjectIterables(object):
             return iterable.edit_suffix(suffix)
 
 @dataclasses.dataclass
-class ProjectParser(object):
+class TheoryParser(object):
 
     @staticmethod
     def list_to_string(variable):
@@ -120,7 +120,7 @@ class ProjectParser(object):
 
 
 @dataclasses.dataclass
-class ProjectUtilities(object):
+class TheoryUtilities(object):
 
     def _check_lengths(self, variable1, variable2):
         """Returns boolean value whether two list variables are of the same

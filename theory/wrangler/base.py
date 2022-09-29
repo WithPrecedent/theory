@@ -18,7 +18,7 @@ import theory
 
 
 @dataclasses.dataclass
-class Manual(ProjectBook):
+class Manual(TheoryBook):
     """Implements data parsing, wrangling, munging, merging, engineering, and
     cleaning methods for the theory package.
 
@@ -34,7 +34,7 @@ class Manual(ProjectBook):
             argument should only be passed if the user wishes to override the
             steps listed in the Idea settings or if the user is not using the
             Idea class.
-        plans(ProjectBook): instanced subclasses of ProjectBook for
+        plans(TheoryBook): instanced subclasses of TheoryBook for
             prepared tools for the Manual.
         name(str): designates the name of the class which should be identical
             to the section of the idea configuration with relevant settings.
@@ -47,7 +47,7 @@ class Manual(ProjectBook):
         auto_publish(bool): whether to call the 'publish' method when the
             class is instanced.
 
-    Since this class is a subclass to ProjectBook and ProjectDirector, all
+    Since this class is a subclass to TheoryBook and TheoryDirector, all
     documentation for those classes applies as well.
 
     """

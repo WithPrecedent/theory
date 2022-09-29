@@ -489,7 +489,7 @@ class SkaterExplain(Explainer):
 #     algorithm = 'explain_prediction_df')
 
 
-# """ Prediction ProjectRepository """
+# """ Prediction TheoryRepository """
 
 # prediction_gini = Technique(
 #     name = 'gini_predictions',
@@ -515,7 +515,7 @@ class SkaterExplain(Explainer):
 #     module = 'self',
 #     algorithm = '_get_shap_probabilities')
 
-# """ Ranking ProjectRepository """
+# """ Ranking TheoryRepository """
 
 # rank_gini = Technique(
 #     name = 'gini_importances',
@@ -534,7 +534,7 @@ class SkaterExplain(Explainer):
 #     module = 'self',
 #     algorithm = '_get_shap_importances')
 
-""" Metrics ProjectRepository """
+""" Metrics TheoryRepository """
 
 # def _get_brier_score_loss_parameters(self, parameters, recipe = None):
 #     if self.step in 'brier_score_loss':

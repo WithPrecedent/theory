@@ -18,7 +18,7 @@ from theory import base
 
 
 @dataclasses.dataclass
-class Fill(base.ProjectStep):
+class Fill(base.TheoryStep):
     """Wrapper for a Technique.
 
     An instance will try to return attributes from 'contents' if the attribute 
@@ -34,7 +34,7 @@ class Fill(base.ProjectStep):
             method.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             True.
                                                 
@@ -46,7 +46,7 @@ class Fill(base.ProjectStep):
 
 
 @dataclasses.dataclass
-class FillTechnique(base.ProjectTechnique, abc.ABC):
+class FillTechnique(base.TheoryTechnique, abc.ABC):
     """Wrapper for a Technique.
 
     Args:
@@ -63,7 +63,7 @@ class FillTechnique(base.ProjectTechnique, abc.ABC):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             True.
                                                 
@@ -93,7 +93,7 @@ class SmartFill(FillTechnique):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             True.
                                                 
@@ -131,13 +131,13 @@ class Impute(FillTechnique):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             True.
                                                 
     """  
     name: str = 'impute'
-    contents: Union[Callable, Type, object, str] = 'ProjectImputer'
+    contents: Union[Callable, Type, object, str] = 'TheoryImputer'
     iterations: Union[int, str] = 1
     parameters: Dict[str, Any] = dataclasses.field(default_factory = lambda: {
         'defaults': {}})
@@ -163,7 +163,7 @@ class KNNImpute(FillTechnique):
             iteration. Defaults to 1.
         parameters (Mapping[Any, Any]]): parameters to be attached to 'contents' 
             when the 'implement' method is called. Defaults to an empty dict.
-        parallel (ClassVar[bool]): indicates whether this Component design is
+        parallel (ClassVar[bool]): indicates whether this Process design is
             meant to be at the end of a parallel workflow structure. Defaults to 
             True.
                                                 
