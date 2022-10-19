@@ -22,7 +22,8 @@ Contents:
         '__getattr__' function of this module.  
         
 theory uses amos's lazy import system so that subpackages, modules, and
-specific objects are not imported until they are first accessed.
+specific objects outside of 'core' are not imported until they are first 
+accessed.
   
 ToDo:
    
@@ -61,6 +62,16 @@ __version__ = '0.1.1'
 
 __author__ = 'Corey Rayburn Yung'
 
+from .core.base import *
+from .core.components import *
+from .core.criteria import *
+from .core.dataset import *
+from .core.external import *
+from .core.framework import *
+from .core.interface import *
+from .core.quirks import *
+from .core.stages import *
+
 
 """ 
 The keys of 'importables' are the attribute names of how users should access
@@ -68,40 +79,15 @@ the modules and other items listed in values. 'importables' is necessary for
 the lazy importation system used throughout theory.
 """
 importables: dict[str, str] = {
-    'core': 'core',
-    'project': 'project',
     'utilities': 'utilities',
     'decorators': 'utilities.decorators',
     'memory': 'utilities.memory',
     'tools': 'utilities.tools',
-    'quirks': 'core.quirks',
-    'framework': 'core.framework',
-    'base': 'core.base',
-    'components': 'core.components',
-    'external': 'core.external',
-    'criteria': 'core.criteria',
-    'Phases': 'core.Phases',
-    'dataset': 'core.dataset',
     'analyst': 'analyst',
     'artist': 'artist',
     'critic': 'critic',
     'explorer': 'explorer',
-    'wrangler': 'wrangler',
-    'ProjectBase': 'core.base.ProjectBase',
-    'Process': 'core.base.Process',
-    'Outline': 'core.Phases.Outline',
-    'Workflow': 'core.Phases.Workflow',
-    'Summary': 'core.Phases.Summary',
-    'Parameters': 'core.components.Parameters',
-    'Step': 'core.components.Step',
-    'Technique': 'core.components.Technique',
-    'Worker': 'core.components.Worker',
-    'Pipeline': 'core.components.Pipeline',
-    'Contest': 'core.components.Contest',
-    'Study': 'core.components.Study',
-    'Survey': 'core.components.Survey',
-    'Dataset': 'core.dataset.Dataset',
-    'Theory': 'core.interface.Theory'}
+    'wrangler': 'wrangler'}
 
 
 def __getattr__(name: str) -> Any:

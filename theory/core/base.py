@@ -34,18 +34,19 @@ import inspect
 import random
 import pathlib
 from typing import (
-    TYPE_CHECKING, Any, Callable, ClassVar, Dict, Hashable, Iterable, List, MutableMapping, 
-    Optional, Sequence, Tuple, Type, Union)
+    Any, ClassVar, Hashable, MutableMapping, Optional, Sequence, Type, 
+    TYPE_CHECKING, Union)
 
 import amos
 import chrisjen
 import more_itertools
+import numpy as np
+import pandas as pd
 
 if TYPE_CHECKING:
     from . import framework
     from . import stages
-    import numpy as np
-    import pandas as pd
+
 
 
 @dataclasses.dataclass

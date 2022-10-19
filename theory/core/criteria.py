@@ -119,7 +119,7 @@ class Fbeta(base.TheoryCriteria):
     name: str = 'fbeta'
     module: str = 'sklearn.metrics'
     contents: str = 'fbeta_score'
-    required = {'beta': 1}),
+    required = {'beta': 1}
     
     
 @dataclasses.dataclass

@@ -1,78 +1,39 @@
 # Contribution Guidelines
 
-theory uses a code structure patterned after the writing process. Each major subpackage in the theory package  (Wrangler, Analyst, Explorer, Critic, Artist)creates a Book object which contains particular implementations (Chapters) which have one or more steps (TheoryRepository).
-
-    Wrangler creates an Manual of Plans.
-    Analyst creates a Cookbook of Recipes.
-    Explorer creates a Ledger of Summaries.
-    Critic creates a Collection of Reviews.
-    Artist creates a Canvas of Illustrations.
-
-theory is fully extensible. Additional subpackages, Books, Chapters, and TheoryRepository can be added to a Theory. To contribute to theory, please follow these basic rules:
+To contribute to theory, please follow these basic rules:
 
 ## Style
 
-1. The project generally follows the Google Style Guide for python:
-    https://google.github.io/styleguide/pyguide.html
-It is particularly important for contributions to follow the Google style for docstrings so that sphinx napoleon can automatically incorporate the docstrings into online documentation.
+1. The project generally follows the Google Style Guide for python (https://google.github.io/styleguide/pyguide.html) with two 
+   notable exceptions:
+   * I always add spaces around '='. This is because I find it more readable  and it is practically the norm with type annotations adding the spaces to function and method signatures. I realize that this will seem alien to many coders, but it is far easier on my eyes. 
+   * I've expanded the Google exception for importing multiple items from one package from just 'typing' to also include 'collections.abc'. This is because, as of python 3.9, many of the type annotations in 'typing' are being depreciated and have already been combined with the similarly named types in 'collections.abc'. I except Google will make this change at some point in the near future. 
+  It is particularly important for contributions to follow the Google style for docstrings so that sphinx napoleon can automatically incorporate the docstrings into online documentation.
 
-2. Explicitness preferences are heightened beyond PEP8 guidelines. Varible names should be verbose enough so that there meaning is clear and consistent. Annotations (using python 3.7+) should always be used in arguments and docstrings. As theory is intended to be used by all levels of coders (and by non-coders as well), it is important to make everything as clear as possible to someone seeing the code for the first time. List and dict comprehensions are disfavored. If there are significant speed advantages to using a comprehension,
-please wrap them in a function or method (as with the 'add_suffix' and 'add_prefix' functions in theory.core.utilities).
+2. Explicitness preferences are heightened beyond PEP8 guidelines. Varible names should be verbose enough so that their meaning is clear and consistent. Type annotations should always be used in arguments and docstrings. As theory is intended to be used by all levels of coders (and by non-coders as well), it is important to make everything as clear as possible to someone seeing the code for the first time. 
 
-3. Follow the package naming conventions. All abstract base classes begin with the prefix 'Theory'. Generally, theory tries to avoid cluttering user namespace with commonly used object names (an exception was made for the 'apply' method).
-
-4. theory follows an object-oriented approach because that makes integration with scikit-learn and general modularity easier. Contributions are not precluded from using other programming styles, but class wrappers might be needed to interface properly with the overall theory structure. In fact, the interfaces for deep learning packages are largely wrappers for functional programming.
+3. theory generally follows an object-oriented approach because that makes integration with scikit-learn and general modularity easier. Contributions are not precluded from using other programming styles, but class wrappers might be needed to interface properly with the overall theory structure. 
 
 ## Structure
 
-1. All base classes should have a similar interface of methods. Each base class divides processes into three Phases, again patterned after the writing process which are the core methods used throughout the theory package:
+1. Any new subpackages should follow a similar template to existing ones. All classes within theory should use the @dataclasses.dataclass decorator (introduced in python 3.7) to minimize boilerplate code and make classes easier to read.
 
-    * draft: sets default attributes (required).
-    * publish: finalizes attributes after any runtime changes. (required).
-    * apply: applies selected options to passed arguments (optional).
-
-Any new subpackages, Books, Chapters, and TheoryRepository should follow a similar template. All classes within theory should use the new @dataclasses.dataclass accessor to minimize boilerplate code (introduced in python 3.7)
-
-2. theory lazily (runtime) loads most external and internal modules. This is done to lower overhead and incorporate "soft" dependencies. As a result, contributions hould follow these general idioms for importing objects within modules.
-
-    For Book-level classes, all potentially importable objects should be stored in a dict called 'options'. Each entry in 'options' should follow this format:
-
-        {key(str): (module_path(str), object_name(str))}
-
-    Then, to import the needed object, use this general code:
-
-        from importlib import importlib.import_module
-
-        getattr(importlib.import_module(self.workers[key][0]), self.workers[key][1])
-
-    For Technique-level classes, a special class has been created to construct needed external and internal objects. It is the Option class in the Contributor module. Follow the documentation there for creating TheoryRepository.
-
-    Chapters should not require an module importation.
-
+2. theory lazily (runtime) loads most external and internal modules. This is done to lower overhead and incorporate "soft" dependencies. 
+   
 3. theory favors coomposition over inheritance and makes extensive use of the composite and builder design patterns. Inheritance is used, and only allowed from the abstract base classes that define a particular grouping of classes. For example, the Book, Chapter, and Technique classes inherit from Manuscript to allow for sharing of common methods.
 
-4. When composing objects through a loosely coupled hierarchy, it is important to provide connections in both directions. For example, the Chapter class has methods to 'add_technique' and 'add_book' which automatically change local attributes ('techniques' and 'book') accordingly. This is done so that any class in a composite tree can access attributes from other classes in that tree without passing numerous arguments.
+4. When composing objects through a loosely coupled hierarchy, it is often important to provide connections in both directions. 
 
-## theory Worker
+5. All file management should be perfomed throught the shared Clerk instance.
 
-1. All file management should be perfomed throught the shared Clerk instance.
+6. All external settings should be imported and constructed using the shared Idea instance. 
 
-2. All external settings should be imported and constructed using the shared 'Idea' instance. To inject matching attributes from the Idea instance, use this idiom from a subclass with the Idea instance stored at 'idea':
-
-    self = self.idea.apply(instance = self)
-
-3. All external data should be contained in instances of Dataset. Before beginning the processes in Analyst, ideally, there should be a single, combined pandas DataFrame stored in the Dataset instance at the 'df' attribute.
-
-4. Any generally usable functions or decorators should be stored in theory.core.utilities.
-
-5. If you create a proxy for typing, please subclass the TheoryType class in theory.core.definitionsetter, if possible.
-
-6. State management is currently handled by classes in theory.core.states, but are typically accessed indirectly. The overall 'worker' attribute is an attribute to a Clerk instance and 'data_state' is an attribute to an Dataset instance.
+7. All external data should be contained in instances of Dataset. Before beginning the processes in Analyst, ideally, there should be a single, combined pandas DataFrame stored in the Dataset instance.
 
 ## General
 
 1. When in doubt, copy. All of the core subpackages follow these rules. If you are starting a new object in theory, the safest route is just to copy an analagous class (and related import statements) into a new module and go from there.
 
-2. Add any new soft or hard dependencies to the requirements.txt and yaml environment files in the root folder of the package. Even though there is a risk to the approach, theory favors importation over integration of open-source code. This allows updates to those external dependencies to be seamlessly added into a theory workflow. This can create problems when constructing virtual python environments, but, absent special circumstances, importatiion is preferred.
+2. Add any new soft or hard dependencies to the pyproject.toml file in the root folder of the package. Even though there is a risk to the approach, theory favors importation over integration of open-source code. This allows updates to those external dependencies to be seamlessly added into a theory workflow. This can create problems when constructing virtual python environments, but, absent special circumstances, importatiion is preferred.
 
-3. If you have a great idea that is inconsistent with these guidelines, email Corey Yung directly. We are always looking for ways to improve theory and are open to amending or discarding various contribution guidelines if they are stifling innovation.
+3. If you have a great idea that is inconsistent with these guidelines, email the maintainer directly. We are always looking for ways to improve theory and are open to amending or discarding various contribution guidelines if they are stifling innovation.
